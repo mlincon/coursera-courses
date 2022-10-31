@@ -1,4 +1,4 @@
-# Applied Data Science with Python
+# Applied Data Science with Python Specialization from Uni Michigan
 
 01 - Introduction to Data Science
 
