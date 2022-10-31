@@ -35,7 +35,7 @@ function App() {
   }; 
  
   function resetResult(e) { 
-  	e.preventDefault();
+    e.preventDefault();
     setResult(0); 
   }; 
  
