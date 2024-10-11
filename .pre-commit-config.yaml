@@ -1,0 +1,59 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+# taken from FastAPI: https://github.com/tiangolo/fastapi/blob/master/.pre-commit-config.yaml
+default_language_version:
+  python: python3.11
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-toml
+      - id: check-yaml
+        args:
+          - --unsafe
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: requirements-txt-fixer
+
+  # sort python imports
+  # uses compatibility with black and eventually ruff: https://pycqa.github.io/isort/docs/configuration/black_compatibility.html
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ["--profile", "black", "--filter-files"]
+
+  # lint and format using ruff
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff # Run the linter
+        args: [--fix]
+      - id: ruff-format # Run the formatter
+
+  # sql linter and formater using sqlfluff: https://docs.sqlfluff.com/en/stable/production.html
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 3.2.3
+    hooks:
+      - id: sqlfluff-lint
+      - id: sqlfluff-fix
+
+  # yaml checks (see yamllint config for settings that will be checked)
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.0
+    hooks:
+      - id: yamllint
+
+#   # docker lint
+#   - repo: https://github.com/hadolint/hadolint
+#     rev: v2.12.0
+#     hooks:
+#       - id: hadolint
+#         args:
+#           - Dockerfile
+
+ci:
+  autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
+  autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate
