@@ -1,5 +1,6 @@
 module "etl" {
   source = "./modules/etl"
+
   project             = var.project
   region              = var.region
   private_subnet_a_id = var.private_subnet_a_id
@@ -11,25 +12,25 @@ module "etl" {
   password            = var.source_password
 }
 
-# module "vector_db" {
-#   source = "./modules/vector-db"
+module "vector_db" {
+  source = "./modules/vector-db"
 
-#   project            = var.project
-#   region             = var.region
-#   vpc_id             = var.vpc_id
-#   public_subnet_a_id = var.public_subnet_a_id
-#   public_subnet_b_id = var.public_subnet_b_id
+  project            = var.project
+  region             = var.region
+  vpc_id             = var.vpc_id
+  public_subnet_a_id = var.public_subnet_a_id
+  public_subnet_b_id = var.public_subnet_b_id
 
-#   depends_on = [module.etl]
-# }
+  depends_on = [module.etl]
+}
 
-# module "streaming_inference" {
-#   source = "./modules/streaming-inference"
+module "streaming_inference" {
+  source = "./modules/streaming-inference"
 
-#   project            = var.project
-#   region             = var.region
-#   kinesis_stream_arn = var.kinesis_stream_arn
-#   inference_api_url  = var.inference_api_url
+  project            = var.project
+  region             = var.region
+  kinesis_stream_arn = var.kinesis_stream_arn
+  inference_api_url  = var.inference_api_url
 
-#   depends_on = [module.vector_db]
-# }
+  depends_on = [module.vector_db]
+}
