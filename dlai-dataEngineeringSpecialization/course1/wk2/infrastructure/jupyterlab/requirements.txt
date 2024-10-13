@@ -1,4 +1,4 @@
-urllib3==1.26.6
+urllib3==1.26.19
 Cython==3.0.5
 awswrangler==3.6.0
 matplotlib==3.9.0
