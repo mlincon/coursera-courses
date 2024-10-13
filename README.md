@@ -1,1 +1,1 @@
-Repository for Coursera courses
+Course lazy note taking and meant for use as only future references
