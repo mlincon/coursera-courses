@@ -1,0 +1,4 @@
+NEO4JHOST=ec2-52-20-106-222.compute-1.amazonaws.com
+PORT=7687
+USERNAME=neo4j
+PASSWORD=adminneo4j
