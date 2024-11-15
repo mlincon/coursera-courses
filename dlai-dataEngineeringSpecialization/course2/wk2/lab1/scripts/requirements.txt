@@ -4,4 +4,4 @@ urllib3==1.26.19
 Cython==3.0.5
 seaborn==0.11.2
 ipywidgets==8.1.1
-jupyterlab==4.0.9
+jupyterlab==4.2.5
