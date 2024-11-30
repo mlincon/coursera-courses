@@ -1,5 +1,5 @@
 pyflink==1.0
-urllib3==1.26.18
+urllib3==1.26.19
 Cython==3.0.5
 awswrangler==3.7.3
 jupyterlab==4.2.0
