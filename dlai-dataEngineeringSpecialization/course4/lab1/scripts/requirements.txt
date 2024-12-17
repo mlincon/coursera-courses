@@ -2,7 +2,7 @@ boto3==1.34.19
 botocore==1.34.19
 Cython==3.0.5
 ipython-sql==0.5.0
-jupyterlab==4.0.9
+jupyterlab==4.3.3
 pandas==2.2.2
 pgspecial==2.1.2
 psycopg2==2.9.9
