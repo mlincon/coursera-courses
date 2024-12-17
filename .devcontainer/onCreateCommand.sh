@@ -7,11 +7,11 @@ pip install "dvc==3.55.2" "dvc-s3==3.2.0"
 # Install pre-commit for git hook
 echo "(*) Installing pre-commit requirements ..."
 pip install \
-    "isort==5.13.2" \
-    "pre-commit==4.0.1" \
-    "ruff==0.6.9" \
-    "sqlfluff==3.2.3" \
-    "yamllint==1.35.0"
+    "isort" \
+    "pre-commit" \
+    "ruff" \
+    "sqlfluff" \
+    "yamllint"
 
 # install flyway at home directory
 echo "(*) Installing Flyway..."

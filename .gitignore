@@ -299,3 +299,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# dbt
+**/target/
+**/dbt_packages/
+*.ddb
+*.wal
+*.backup

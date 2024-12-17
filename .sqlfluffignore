@@ -1,3 +1,5 @@
-# table structure of WBE
-mock/data/wbe/*
-mock/data/flowview/*
+.venv
+target/
+reports/
+dbt_packages/
+macros/
