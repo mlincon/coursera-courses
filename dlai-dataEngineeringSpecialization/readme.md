@@ -7,3 +7,5 @@ Course 2: Source Systems, Data Ingestion and Pipelines
 Course 3: Data Storage and Queries
 
 Course 4: Data Modeling, Transformation, and Serving
+- Wk1 A1: Data modeling with DBT
+- Wk2 : Also has DBT
