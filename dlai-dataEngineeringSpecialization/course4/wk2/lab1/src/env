@@ -1,0 +1,5 @@
+DBHOST=de----.ct02cscyyr1v.us-east-1.rds.amazonaws.com
+DBUSER = admin
+DBPASSWORD = adminpwrd
+DBPORT = 3306
+DBNAME = classicmodels
