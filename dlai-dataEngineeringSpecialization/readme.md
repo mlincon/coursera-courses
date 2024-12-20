@@ -11,3 +11,4 @@ Course 4: Data Modeling, Transformation, and Serving
 - Wk1 A1: Data modeling with DBT (Star Schema includes dim_date table)
 - Wk3 A1: Data modeling with Spark (Star Schema includes dim_date table)
 - Wk3 Lab1: CDC with Flink and Debezium
+- Wk4 Lab1: Views and Materialized Views with Dbt
