@@ -1,0 +1,3862 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n# Week 3 Lab: Capture Data Change with Flink and Debezium\n\nFollow the instructions in this notebook to work with the Flink environment.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Week 3 Lab: Capture Data Change with Flink and Debezium</h1>\n<p>Follow the instructions in this notebook to work with the Flink environment.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180031_275407141",
+      "id": "20240706-000147_356273849",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:40561"
+    },
+    {
+      "text": "%md\n## 1 - Configuring the Flink Environment\n\nStart by configuring the Flink enviroment. Run the following cell:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>1 - Configuring the Flink Environment</h2>\n<p>Start by configuring the Flink enviroment. Run the following cell:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180032_383832026",
+      "id": "paragraph_1720766585719_1960617021",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40562"
+    },
+    {
+      "text": "%flink.conf\n# You need to run this paragraph first before running any flink code.\nflink.execution.packages\torg.apache.flink:flink-connector-kafka_2.11:1.14.0,org.apache.flink:flink-connector-kafka-base_2.11:1.11.6,org.apache.flink:flink-json:1.14.0,org.apache.flink:flink-avro-confluent-registry:1.14.0,mysql:mysql-connector-java:8.0.28,org.apache.flink:flink-connector-jdbc_2.11:1.14.6,org.postgresql:postgresql:42.7.3",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:27:56+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/text",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180033_1158140580",
+      "id": "20240706-000147_1114681699",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40563",
+      "dateFinished": "2024-12-20T14:27:56+0000",
+      "dateStarted": "2024-12-20T14:27:56+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      }
+    },
+    {
+      "text": "%md\nTo test the Interpreters, run the following queries with the `%mysql` and `%psql` interpreters to check the available schemas and tables:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:28:11+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>To test the Interpreters, run the following queries with the <code>%mysql</code> and <code>%psql</code> interpreters to check the available schemas and tables:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180033_946629191",
+      "id": "paragraph_1720224844514_755985113",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40564",
+      "dateFinished": "2024-12-20T14:28:13+0000",
+      "dateStarted": "2024-12-20T14:28:11+0000"
+    },
+    {
+      "text": "%mysql\nshow schemas;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:28:17+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "Database": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180033_1223285133",
+      "id": "paragraph_1720224929350_1345540052",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40565",
+      "dateFinished": "2024-12-20T14:28:20+0000",
+      "dateStarted": "2024-12-20T14:28:17+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "Database\nclassicmodels\ninformation_schema\ninventory\nmysql\nperformance_schema\nsys\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%mysql\nselect table_schema as database_name,\n    table_name\nfrom information_schema.tables\nwhere table_type = 'BASE TABLE'\n        and table_schema = 'classicmodels'\norder by database_name, table_name;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:28:32+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "database_name": "string",
+                      "TABLE_NAME": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180033_2018615382",
+      "id": "paragraph_1720224967998_909573402",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40566",
+      "dateFinished": "2024-12-20T14:28:32+0000",
+      "dateStarted": "2024-12-20T14:28:32+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "database_name\tTABLE_NAME\nclassicmodels\tcustomers\nclassicmodels\temployees\nclassicmodels\toffices\nclassicmodels\torderdetails\nclassicmodels\torders\nclassicmodels\tpayments\nclassicmodels\tproductlines\nclassicmodels\tproducts\nclassicmodels\tratings\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%psql\nSELECT schema_name\nFROM information_schema.schemata;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:29:38+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "schema_name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180033_1221742302",
+      "id": "20240706-000147_963908608",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40567",
+      "dateFinished": "2024-12-20T14:29:41+0000",
+      "dateStarted": "2024-12-20T14:29:38+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "schema_name\npublic\nclassicmodels_star_schema\ninformation_schema\npg_catalog\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "\n%psql\nselect * from pg_tables where schemaname='classicmodels_star_schema';",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:29:46+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "schemaname": "string",
+                      "tablename": "string",
+                      "tableowner": "string",
+                      "tablespace": "string",
+                      "hasindexes": "string",
+                      "hasrules": "string",
+                      "hastriggers": "string",
+                      "rowsecurity": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180033_888503938",
+      "id": "20240706-000147_2118664676",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40568",
+      "dateFinished": "2024-12-20T14:29:46+0000",
+      "dateStarted": "2024-12-20T14:29:46+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "schemaname\ttablename\ttableowner\ttablespace\thasindexes\thasrules\thastriggers\trowsecurity\nclassicmodels_star_schema\tfact_orders\tpostgresuser\tnull\tt\tf\tf\tf\nclassicmodels_star_schema\tdim_customers\tpostgresuser\tnull\tt\tf\tf\tf\nclassicmodels_star_schema\tdim_products\tpostgresuser\tnull\tt\tf\tf\tf\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n## 2 - Customers Dimension\n\nYou will use Flink SQL to connect to the Debezium/Kafka topics and create Flink tables on top of them, these topics bring the current values and future changes for each table in the source database. Then you will create Flink tables connecting to the tables in the target database and write the SQL logic to insert from the Source tables into the Output tables.\n\nBefore defining the CDC pipeline, review the original `customers` table from the source system, use the `%mysql` interpreter to run the following cell:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>2 - Customers Dimension</h2>\n<p>You will use Flink SQL to connect to the Debezium/Kafka topics and create Flink tables on top of them, these topics bring the current values and future changes for each table in the source database. Then you will create Flink tables connecting to the tables in the target database and write the SQL logic to insert from the Source tables into the Output tables.</p>\n<p>Before defining the CDC pipeline, review the original <code>customers</code> table from the source system, use the <code>%mysql</code> interpreter to run the following cell:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180033_944304035",
+      "id": "20240706-000147_841048225",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40569"
+    },
+    {
+      "text": "%mysql\nSELECT * FROM classicmodels.customers limit 10;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:32:24+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "customerNumber": "string",
+                      "customerName": "string",
+                      "contactLastName": "string",
+                      "contactFirstName": "string",
+                      "phone": "string",
+                      "addressLine1": "string",
+                      "addressLine2": "string",
+                      "city": "string",
+                      "state": "string",
+                      "postalCode": "string",
+                      "country": "string",
+                      "salesRepEmployeeNumber": "string",
+                      "creditLimit": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180033_1105751343",
+      "id": "20240706-000147_408449195",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40570",
+      "dateFinished": "2024-12-20T14:32:24+0000",
+      "dateStarted": "2024-12-20T14:32:24+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "customerNumber\tcustomerName\tcontactLastName\tcontactFirstName\tphone\taddressLine1\taddressLine2\tcity\tstate\tpostalCode\tcountry\tsalesRepEmployeeNumber\tcreditLimit\n103\tAtelier graphique\tSchmitt\tCarine \t40.32.2555\t54, rue Royale\tnull\tNantes\tnull\t44000\tFrance\t1370\t21000.00\n112\tSignal Gift Stores\tKing\tJean\t7025551838\t8489 Strong St.\tnull\tLas Vegas\tNV\t83030\tUSA\t1166\t71800.00\n114\tAustralian Collectors, Co.\tFerguson\tPeter\t03 9520 4555\t636 St Kilda Road\tLevel 3\tMelbourne\tVictoria\t3004\tAustralia\t1611\t117300.00\n119\tLa Rochelle Gifts\tLabrune\tJanine \t40.67.8555\t67, rue des Cinquante Otages\tnull\tNantes\tnull\t44000\tFrance\t1370\t118200.00\n121\tBaane Mini Imports\tBergulfsen\tJonas \t07-98 9555\tErling Skakkes gate 78\tnull\tStavern\tnull\t4110\tNorway\t1504\t81700.00\n124\tMini Gifts Distributors Ltd.\tNelson\tSusan\t4155551450\t5677 Strong St.\tnull\tSan Rafael\tCA\t97562\tUSA\t1165\t210500.00\n125\tHavel & Zbyszek Co\tPiestrzeniewicz\tZbyszek \t(26) 642-7555\tul. Filtrowa 68\tnull\tWarszawa\tnull\t01-012\tPoland\tnull\t0.00\n128\tBlauer See Auto, Co.\tKeitel\tRoland\t+49 69 66 90 2555\tLyonerstr. 34\tnull\tFrankfurt\tnull\t60528\tGermany\t1504\t59700.00\n129\tMini Wheels Co.\tMurphy\tJulie\t6505555787\t5557 North Pendale Street\tnull\tSan Francisco\tCA\t94217\tUSA\t1165\t64600.00\n131\tLand of Toys Inc.\tLee\tKwai\t2125557818\t897 Long Airport Avenue\tnull\tNYC\tNY\t10022\tUSA\t1323\t114900.00\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n### 2.1 - Creating Flink Tables\n\nTo create Flink tables with the SQL API, you will use `CREATE` statements that register a table into the current Flink catalog using the `%flink.ssql` Interpreter. You define the schema of the source data and then specify the **connector** format and parameters of the table.\n\nThis is an example of a table named `source_customers` with a Kafka topic:\n\n```sql\nCREATE TABLE source_customers (\n    ...\n) WITH (\n  'connector' = 'kafka'\n  'topic' = '<KAFKA_TOPIC>',\n  'properties.bootstrap.servers' = '<KAFKA_SERVER_URL>'\n  ...\n);\n```\n\nThe data will be coming from a Kafka topic connected to Debezium and the source system. You will need to use the following configuration parameters for the table connection:\n\n```sql\nCREATE TABLE source_customers (\n    ...\n) WITH (\n  'connector' = 'kafka',\n  'topic' = 'dbserver1.classicmodels.customers',\n  'properties.bootstrap.servers' = 'kafka:9092',\n  'properties.group.id' = 'testGroup',\n  'format' = 'debezium-json',\n  'scan.startup.mode' = 'earliest-offset',\n  'debezium-json.schema-include' = 'true'\n);\n```",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:38:47+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h3>2.1 - Creating Flink Tables</h3>\n<p>To create Flink tables with the SQL API, you will use <code>CREATE</code> statements that register a table into the current Flink catalog using the <code>%flink.ssql</code> Interpreter. You define the schema of the source data and then specify the <strong>connector</strong> format and parameters of the table.</p>\n<p>This is an example of a table named <code>source_customers</code> with a Kafka topic:</p>\n<pre><code class=\"language-sql\">CREATE TABLE source_customers (\n    ...\n) WITH (\n  'connector' = 'kafka'\n  'topic' = '&lt;KAFKA_TOPIC&gt;',\n  'properties.bootstrap.servers' = '&lt;KAFKA_SERVER_URL&gt;'\n  ...\n);\n</code></pre>\n<p>The data will be coming from a Kafka topic connected to Debezium and the source system. You will need to use the following configuration parameters for the table connection:</p>\n<pre><code class=\"language-sql\">CREATE TABLE source_customers (\n    ...\n) WITH (\n  'connector' = 'kafka',\n  'topic' = 'dbserver1.classicmodels.customers',\n  'properties.bootstrap.servers' = 'kafka:9092',\n  'properties.group.id' = 'testGroup',\n  'format' = 'debezium-json',\n  'scan.startup.mode' = 'earliest-offset',\n  'debezium-json.schema-include' = 'true'\n);\n</code></pre>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180034_881491803",
+      "id": "20240706-000147_18195380",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40571",
+      "dateFinished": "2024-12-20T14:38:47+0000",
+      "dateStarted": "2024-12-20T14:38:47+0000"
+    },
+    {
+      "text": "%md\n2.1.1. In the code cell below add those connection parameters and review the list of the columns. Note, that in this particular case, a metadata column will be added to the original source schema. This allows to access information obtained or produced by the connector, in this case, the timestamp of the Kafka record in the topic. To read and write a Kafka record's timestamp in the additional metadata column, the following code is used:\n\n```sql\n`event_time` TIMESTAMP(3) METADATA FROM 'timestamp',\n```",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>2.1.1. In the code cell below add those connection parameters and review the list of the columns. Note, that in this particular case, a metadata column will be added to the original source schema. This allows to access information obtained or produced by the connector, in this case, the timestamp of the Kafka record in the topic. To read and write a Kafka record&rsquo;s timestamp in the additional metadata column, the following code is used:</p>\n<pre><code class=\"language-sql\">`event_time` TIMESTAMP(3) METADATA FROM 'timestamp',\n</code></pre>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180034_1495171120",
+      "id": "paragraph_1720767675092_436746998",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40572"
+    },
+    {
+      "text": "%flink.ssql\nDROP TABLE IF EXISTS source_customers;\n\nCREATE TABLE source_customers (\n    `customerNumber` INT,\n    `customerName` STRING,\n    `contactLastName` STRING,\n    `contactFirstName` STRING,\n    `phone` STRING,\n    `addressLine1` STRING,\n    `addressLine2` STRING,\n    `city` STRING,\n    `state` STRING,\n    `postalCode` STRING,\n    `country` STRING,\n    `salesRepEmployeeNumber` INT,\n    `creditLimit` FLOAT, --VARBINARY,\n    `event_time` TIMESTAMP(3) METADATA FROM 'timestamp',\n    PRIMARY KEY (`customerNumber`)  NOT ENFORCED\n) WITH (\n  'connector' = 'kafka',\n  'topic' = 'dbserver1.classicmodels.customers',\n  'properties.bootstrap.servers' = 'kafka:9092',\n  'properties.group.id' = 'testGroup',\n  'format' = 'debezium-json',\n  'scan.startup.mode' = 'earliest-offset',\n  'debezium-json.schema-include' = 'true'\n);",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:38:59+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180034_1565306607",
+      "id": "20240706-000147_1285111959",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40573",
+      "dateFinished": "2024-12-20T14:39:34+0000",
+      "dateStarted": "2024-12-20T14:38:59+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n2.1.2. To check that the `source_customers` table is well defined, add this table name into the following `SELECT` query and run the cell. After getting some results cancel the query in the upper right of the cell with the pause icon.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>2.1.2. To check that the <code>source_customers</code> table is well defined, add this table name into the following <code>SELECT</code> query and run the cell. After getting some results cancel the query in the upper right of the cell with the pause icon.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180034_1435038658",
+      "id": "20240706-000147_1976059361",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40574"
+    },
+    {
+      "text": "\n%flink.ssql\nSELECT *\nFROM source_customers;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:46:00+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "customerNumber": "string",
+                      "customerName": "string",
+                      "contactLastName": "string",
+                      "contactFirstName": "string",
+                      "phone": "string",
+                      "addressLine1": "string",
+                      "addressLine2": "string",
+                      "city": "string",
+                      "state": "string",
+                      "postalCode": "string",
+                      "country": "string",
+                      "salesRepEmployeeNumber": "string",
+                      "creditLimit": "string",
+                      "event_time": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "FLINK JOB",
+          "tooltip": "View in Flink web UI",
+          "group": "flink",
+          "values": [
+            {
+              "jobUrl": "http://localhost:8081#/job/d83d6baed2475eec1ebd97013507f681",
+              "$$hashKey": "object:124823"
+            }
+          ],
+          "interpreterSettingId": "flink"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180034_2147231048",
+      "id": "20240706-000147_2043272898",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "RUNNING",
+      "$$hashKey": "object:40575",
+      "dateStarted": "2024-12-20T14:39:41+0000",
+      "results": {
+        "msg": [
+          {
+            "data": "customerNumber\tcustomerName\tcontactLastName\tcontactFirstName\tphone\taddressLine1\taddressLine2\tcity\tstate\tpostalCode\tcountry\tsalesRepEmployeeNumber\tcreditLimit\tevent_time\n103\tAtelier graphique\tSchmitt\tCarine \t40.32.2555\t54, rue Royale\t(NULL)\tNantes\t(NULL)\t44000\tFrance\t1370\t21000.0\t2024-12-20 14:12:17.517\n112\tSignal Gift Stores\tKing\tJean\t7025551838\t8489 Strong St.\t(NULL)\tLas Vegas\tNV\t83030\tUSA\t1166\t71800.0\t2024-12-20 14:12:17.518\n114\tAustralian Collectors, Co.\tFerguson\tPeter\t03 9520 4555\t636 St Kilda Road\tLevel 3\tMelbourne\tVictoria\t3004\tAustralia\t1611\t117300.0\t2024-12-20 14:12:17.523\n119\tLa Rochelle Gifts\tLabrune\tJanine \t40.67.8555\t67, rue des Cinquante Otages\t(NULL)\tNantes\t(NULL)\t44000\tFrance\t1370\t118200.0\t2024-12-20 14:12:17.523\n121\tBaane Mini Imports\tBergulfsen\tJonas \t07-98 9555\tErling Skakkes gate 78\t(NULL)\tStavern\t(NULL)\t4110\tNorway\t1504\t81700.0\t2024-12-20 14:12:17.535\n124\tMini Gifts Distributors Ltd.\tNelson\tSusan\t4155551450\t5677 Strong St.\t(NULL)\tSan Rafael\tCA\t97562\tUSA\t1165\t210500.0\t2024-12-20 14:12:17.535\n125\tHavel & Zbyszek Co\tPiestrzeniewicz\tZbyszek \t(26) 642-7555\tul. Filtrowa 68\t(NULL)\tWarszawa\t(NULL)\t01-012\tPoland\t(NULL)\t0.0\t2024-12-20 14:12:17.536\n128\tBlauer See Auto, Co.\tKeitel\tRoland\t+49 69 66 90 2555\tLyonerstr. 34\t(NULL)\tFrankfurt\t(NULL)\t60528\tGermany\t1504\t59700.0\t2024-12-20 14:12:17.537\n129\tMini Wheels Co.\tMurphy\tJulie\t6505555787\t5557 North Pendale Street\t(NULL)\tSan Francisco\tCA\t94217\tUSA\t1165\t64600.0\t2024-12-20 14:12:17.537\n131\tLand of Toys Inc.\tLee\tKwai\t2125557818\t897 Long Airport Avenue\t(NULL)\tNYC\tNY\t10022\tUSA\t1323\t114900.0\t2024-12-20 14:12:17.538\n141\tEuro+ Shopping Channel\tFreyre\tDiego \t(91) 555 94 44\tC/ Moralzarzal, 86\t(NULL)\tMadrid\t(NULL)\t28034\tSpain\t1370\t227600.0\t2024-12-20 14:12:17.538\n144\tVolvo Model Replicas, Co\tBerglund\tChristina \t0921-12 3555\tBerguvsvägen  8\t(NULL)\tLuleå\t(NULL)\tS-958 22\tSweden\t1504\t53100.0\t2024-12-20 14:12:17.539\n145\tDanish Wholesale Imports\tPetersen\tJytte \t31 12 3555\tVinbæltet 34\t(NULL)\tKobenhavn\t(NULL)\t1734\tDenmark\t1401\t83400.0\t2024-12-20 14:12:17.539\n146\tSaveley & Henriot, Co.\tSaveley\tMary \t78.32.5555\t2, rue du Commerce\t(NULL)\tLyon\t(NULL)\t69004\tFrance\t1337\t123900.0\t2024-12-20 14:12:17.540\n148\tDragon Souveniers, Ltd.\tNatividad\tEric\t+65 221 7555\tBronz Sok.\tBronz Apt. 3/6 Tesvikiye\tSingapore\t(NULL)\t079903\tSingapore\t1621\t103800.0\t2024-12-20 14:12:17.540\n151\tMuscle Machine Inc\tYoung\tJeff\t2125557413\t4092 Furth Circle\tSuite 400\tNYC\tNY\t10022\tUSA\t1286\t138500.0\t2024-12-20 14:12:17.541\n157\tDiecast Classics Inc.\tLeong\tKelvin\t2155551555\t7586 Pompton St.\t(NULL)\tAllentown\tPA\t70267\tUSA\t1216\t100600.0\t2024-12-20 14:12:17.541\n161\tTechnics Stores Inc.\tHashimoto\tJuri\t6505556809\t9408 Furth Circle\t(NULL)\tBurlingame\tCA\t94217\tUSA\t1165\t84600.0\t2024-12-20 14:12:17.541\n166\tHandji Gifts& Co\tVictorino\tWendy\t+65 224 1555\t106 Linden Road Sandown\t2nd Floor\tSingapore\t(NULL)\t069045\tSingapore\t1612\t97900.0\t2024-12-20 14:12:17.542\n167\tHerkku Gifts\tOeztan\tVeysel\t+47 2267 3215\tBrehmen St. 121\tPR 334 Sentrum\tBergen\t(NULL)\tN 5804\tNorway  \t1504\t96800.0\t2024-12-20 14:12:17.542\n168\tAmerican Souvenirs Inc\tFranco\tKeith\t2035557845\t149 Spinnaker Dr.\tSuite 101\tNew Haven\tCT\t97823\tUSA\t1286\t0.0\t2024-12-20 14:12:17.543\n169\tPorto Imports Co.\tde Castro\tIsabel \t(1) 356-5555\tEstrada da saúde n. 58\t(NULL)\tLisboa\t(NULL)\t1756\tPortugal\t(NULL)\t0.0\t2024-12-20 14:12:17.543\n171\tDaedalus Designs Imports\tRancé\tMartine \t20.16.1555\t184, chaussée de Tournai\t(NULL)\tLille\t(NULL)\t59000\tFrance\t1370\t82900.0\t2024-12-20 14:12:17.544\n172\tLa Corne D'abondance, Co.\tBertrand\tMarie\t(1) 42.34.2555\t265, boulevard Charonne\t(NULL)\tParis\t(NULL)\t75012\tFrance\t1337\t84300.0\t2024-12-20 14:12:17.576\n173\tCambridge Collectables Co.\tTseng\tJerry\t6175555555\t4658 Baden Av.\t(NULL)\tCambridge\tMA\t51247\tUSA\t1188\t43400.0\t2024-12-20 14:12:17.576\n175\tGift Depot Inc.\tKing\tJulie\t2035552570\t25593 South Bay Ln.\t(NULL)\tBridgewater\tCT\t97562\tUSA\t1323\t84300.0\t2024-12-20 14:12:17.578\n177\tOsaka Souveniers Co.\tKentary\tMory\t+81 06 6342 5555\t1-6-20 Dojima\t(NULL)\tKita-ku\tOsaka\t 530-0003\tJapan\t1621\t81200.0\t2024-12-20 14:12:17.578\n181\tVitachrome Inc.\tFrick\tMichael\t2125551500\t2678 Kingston Rd.\tSuite 101\tNYC\tNY\t10022\tUSA\t1286\t76400.0\t2024-12-20 14:12:17.582\n186\tToys of Finland, Co.\tKarttunen\tMatti\t90-224 8555\tKeskuskatu 45\t(NULL)\tHelsinki\t(NULL)\t21240\tFinland\t1501\t96500.0\t2024-12-20 14:12:17.584\n187\tAV Stores, Co.\tAshworth\tRachel\t(171) 555-1555\tFauntleroy Circus\t(NULL)\tManchester\t(NULL)\tEC2 5NT\tUK\t1501\t136800.0\t2024-12-20 14:12:17.592\n189\tClover Collections, Co.\tCassidy\tDean\t+353 1862 1555\t25 Maiden Lane\tFloor No. 4\tDublin\t(NULL)\t2\tIreland\t1504\t69400.0\t2024-12-20 14:12:17.615\n198\tAuto-Moto Classics Inc.\tTaylor\tLeslie\t6175558428\t16780 Pompton St.\t(NULL)\tBrickhaven\tMA\t58339\tUSA\t1216\t23000.0\t2024-12-20 14:12:17.617\n201\tUK Collectables, Ltd.\tDevon\tElizabeth\t(171) 555-2282\t12, Berkeley Gardens Blvd\t(NULL)\tLiverpool\t(NULL)\tWX1 6LT\tUK\t1501\t92700.0\t2024-12-20 14:12:17.618\n202\tCanadian Gift Exchange Network\tTamuri\tYoshi \t(604) 555-3392\t1900 Oak St.\t(NULL)\tVancouver\tBC\tV3F 2K1\tCanada\t1323\t90300.0\t2024-12-20 14:12:17.618\n204\tOnline Mini Collectables\tBarajas\tMiguel\t6175557555\t7635 Spinnaker Dr.\t(NULL)\tBrickhaven\tMA\t58339\tUSA\t1188\t68700.0\t2024-12-20 14:12:17.621\n205\tToys4GrownUps.com\tYoung\tJulie\t6265557265\t78934 Hillside Dr.\t(NULL)\tPasadena\tCA\t90003\tUSA\t1166\t90700.0\t2024-12-20 14:12:17.624\n206\tAsian Shopping Network, Co\tWalker\tBrydey\t+612 9411 1555\tSuntec Tower Three\t8 Temasek\tSingapore\t(NULL)\t038988\tSingapore\t(NULL)\t0.0\t2024-12-20 14:12:17.631\n209\tMini Caravy\tCiteaux\tFrédérique \t88.60.1555\t24, place Kléber\t(NULL)\tStrasbourg\t(NULL)\t67000\tFrance\t1370\t53800.0\t2024-12-20 14:12:17.632\n211\tKing Kong Collectables, Co.\tGao\tMike\t+852 2251 1555\tBank of China Tower\t1 Garden Road\tCentral Hong Kong\t(NULL)\t(NULL)\tHong Kong\t1621\t58600.0\t2024-12-20 14:12:17.632\n216\tEnaco Distributors\tSaavedra\tEduardo \t(93) 203 4555\tRambla de Cataluña, 23\t(NULL)\tBarcelona\t(NULL)\t08022\tSpain\t1702\t60300.0\t2024-12-20 14:12:17.637\n219\tBoards & Toys Co.\tYoung\tMary\t3105552373\t4097 Douglas Av.\t(NULL)\tGlendale\tCA\t92561\tUSA\t1166\t11000.0\t2024-12-20 14:12:17.638\n223\tNatürlich Autos\tKloss\tHorst \t0372-555188\tTaucherstraße 10\t(NULL)\tCunewalde\t(NULL)\t01307\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.638\n227\tHeintze Collectables\tIbsen\tPalle\t86 21 3555\tSmagsloget 45\t(NULL)\tÅrhus\t(NULL)\t8200\tDenmark\t1401\t120800.0\t2024-12-20 14:12:17.638\n233\tQuébec Home Shopping Network\tFresnière\tJean \t(514) 555-8054\t43 rue St. Laurent\t(NULL)\tMontréal\tQuébec\tH1J 1C3\tCanada\t1286\t48700.0\t2024-12-20 14:12:17.646\n237\tANG Resellers\tCamino\tAlejandra \t(91) 745 6555\tGran Vía, 1\t(NULL)\tMadrid\t(NULL)\t28001\tSpain\t(NULL)\t0.0\t2024-12-20 14:12:17.647\n239\tCollectable Mini Designs Co.\tThompson\tValarie\t7605558146\t361 Furth Circle\t(NULL)\tSan Diego\tCA\t91217\tUSA\t1166\t105000.0\t2024-12-20 14:12:17.648\n240\tgiftsbymail.co.uk\tBennett\tHelen \t(198) 555-8888\tGarden House\tCrowther Way 23\tCowes\tIsle of Wight\tPO31 7PJ\tUK\t1501\t93900.0\t2024-12-20 14:12:17.649\n242\tAlpha Cognac\tRoulet\tAnnette \t61.77.6555\t1 rue Alsace-Lorraine\t(NULL)\tToulouse\t(NULL)\t31000\tFrance\t1370\t61100.0\t2024-12-20 14:12:17.651\n247\tMessner Shopping Network\tMessner\tRenate \t069-0555984\tMagazinweg 7\t(NULL)\tFrankfurt\t(NULL)\t60528\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.656\n249\tAmica Models & Co.\tAccorti\tPaolo \t011-4988555\tVia Monte Bianco 34\t(NULL)\tTorino\t(NULL)\t10100\tItaly\t1401\t113000.0\t2024-12-20 14:12:17.676\n250\tLyon Souveniers\tDa Silva\tDaniel\t+33 1 46 62 7555\t27 rue du Colonel Pierre Avia\t(NULL)\tParis\t(NULL)\t75508\tFrance\t1337\t68100.0\t2024-12-20 14:12:17.676\n256\tAuto Associés & Cie.\tTonini\tDaniel \t30.59.8555\t67, avenue de l'Europe\t(NULL)\tVersailles\t(NULL)\t78000\tFrance\t1370\t77900.0\t2024-12-20 14:12:17.677\n259\tToms Spezialitäten, Ltd\tPfalzheim\tHenriette \t0221-5554327\tMehrheimerstr. 369\t(NULL)\tKöln\t(NULL)\t50739\tGermany\t1504\t120400.0\t2024-12-20 14:12:17.677\n260\tRoyal Canadian Collectables, Ltd.\tLincoln\tElizabeth \t(604) 555-4555\t23 Tsawassen Blvd.\t(NULL)\tTsawassen\tBC\tT2F 8M4\tCanada\t1323\t89600.0\t2024-12-20 14:12:17.677\n273\tFranken Gifts, Co\tFranken\tPeter \t089-0877555\tBerliner Platz 43\t(NULL)\tMünchen\t(NULL)\t80805\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.681\n276\tAnna's Decorations, Ltd\tO'Hara\tAnna\t02 9936 8555\t201 Miller Street\tLevel 15\tNorth Sydney\tNSW\t2060\tAustralia\t1611\t107800.0\t2024-12-20 14:12:17.682\n278\tRovelli Gifts\tRovelli\tGiovanni \t035-640555\tVia Ludovico il Moro 22\t(NULL)\tBergamo\t(NULL)\t24100\tItaly\t1401\t119600.0\t2024-12-20 14:12:17.683\n282\tSouveniers And Things Co.\tHuxley\tAdrian\t+61 2 9495 8555\tMonitor Money Building\t815 Pacific Hwy\tChatswood\tNSW\t2067\tAustralia\t1611\t93300.0\t2024-12-20 14:12:17.687\n286\tMarta's Replicas Co.\tHernandez\tMarta\t6175558555\t39323 Spinnaker Dr.\t(NULL)\tCambridge\tMA\t51247\tUSA\t1216\t123700.0\t2024-12-20 14:12:17.688\n293\tBG&E Collectables\tHarrison\tEd\t+41 26 425 50 01\tRte des Arsenaux 41 \t(NULL)\tFribourg\t(NULL)\t1700\tSwitzerland\t(NULL)\t0.0\t2024-12-20 14:12:17.688\n298\tVida Sport, Ltd\tHolz\tMihael\t0897-034555\tGrenzacherweg 237\t(NULL)\tGenève\t(NULL)\t1203\tSwitzerland\t1702\t141300.0\t2024-12-20 14:12:17.689\n299\tNorway Gifts By Mail, Co.\tKlaeboe\tJan\t+47 2212 1555\tDrammensveien 126A\tPB 211 Sentrum\tOslo\t(NULL)\tN 0106\tNorway  \t1504\t95100.0\t2024-12-20 14:12:17.689\n303\tSchuyler Imports\tSchuyler\tBradley\t+31 20 491 9555\tKingsfordweg 151\t(NULL)\tAmsterdam\t(NULL)\t1043 GR\tNetherlands\t(NULL)\t0.0\t2024-12-20 14:12:17.691\n307\tDer Hund Imports\tAndersen\tMel\t030-0074555\tObere Str. 57\t(NULL)\tBerlin\t(NULL)\t12209\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.692\n311\tOulu Toy Supplies, Inc.\tKoskitalo\tPirkko\t981-443655\tTorikatu 38\t(NULL)\tOulu\t(NULL)\t90110\tFinland\t1501\t90500.0\t2024-12-20 14:12:17.692\n314\tPetit Auto\tDewey\tCatherine \t(02) 5554 67\tRue Joseph-Bens 532\t(NULL)\tBruxelles\t(NULL)\tB-1180\tBelgium\t1401\t79900.0\t2024-12-20 14:12:17.701\n319\tMini Classics\tFrick\tSteve\t9145554562\t3758 North Pendale Street\t(NULL)\tWhite Plains\tNY\t24067\tUSA\t1323\t102700.0\t2024-12-20 14:12:17.701\n320\tMini Creations Ltd.\tHuang\tWing\t5085559555\t4575 Hillside Dr.\t(NULL)\tNew Bedford\tMA\t50553\tUSA\t1188\t94500.0\t2024-12-20 14:12:17.709\n321\tCorporate Gift Ideas Co.\tBrown\tJulie\t6505551386\t7734 Strong St.\t(NULL)\tSan Francisco\tCA\t94217\tUSA\t1165\t105000.0\t2024-12-20 14:12:17.710\n323\tDown Under Souveniers, Inc\tGraham\tMike\t+64 9 312 5555\t162-164 Grafton Road\tLevel 2\tAuckland  \t(NULL)\t(NULL)\tNew Zealand\t1612\t88000.0\t2024-12-20 14:12:17.710\n324\tStylish Desk Decors, Co.\tBrown\tAnn \t(171) 555-0297\t35 King George\t(NULL)\tLondon\t(NULL)\tWX3 6FW\tUK\t1501\t77000.0\t2024-12-20 14:12:17.710\n328\tTekni Collectables Inc.\tBrown\tWilliam\t2015559350\t7476 Moss Rd.\t(NULL)\tNewark\tNJ\t94019\tUSA\t1323\t43000.0\t2024-12-20 14:12:17.711\n333\tAustralian Gift Network, Co\tCalaghan\tBen\t61-7-3844-6555\t31 Duncan St. West End\t(NULL)\tSouth Brisbane\tQueensland\t4101\tAustralia\t1611\t51600.0\t2024-12-20 14:12:17.711\n334\tSuominen Souveniers\tSuominen\tKalle\t+358 9 8045 555\tSoftware Engineering Center\tSEC Oy\tEspoo\t(NULL)\tFIN-02271\tFinland\t1501\t98800.0\t2024-12-20 14:12:17.728\n335\tCramer Spezialitäten, Ltd\tCramer\tPhilip \t0555-09555\tMaubelstr. 90\t(NULL)\tBrandenburg\t(NULL)\t14776\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.732\n339\tClassic Gift Ideas, Inc\tCervantes\tFrancisca\t2155554695\t782 First Street\t(NULL)\tPhiladelphia\tPA\t71270\tUSA\t1188\t81100.0\t2024-12-20 14:12:17.733\n344\tCAF Imports\tFernandez\tJesus\t+34 913 728 555\tMerchants House\t27-30 Merchant's Quay\tMadrid\t(NULL)\t28023\tSpain\t1702\t59600.0\t2024-12-20 14:12:17.734\n347\tMen 'R' US Retailers, Ltd.\tChandler\tBrian\t2155554369\t6047 Douglas Av.\t(NULL)\tLos Angeles\tCA\t91003\tUSA\t1166\t57700.0\t2024-12-20 14:12:17.734\n348\tAsian Treasures, Inc.\tMcKenna\tPatricia \t2967 555\t8 Johnstown Road\t(NULL)\tCork\tCo. Cork\t(NULL)\tIreland\t(NULL)\t0.0\t2024-12-20 14:12:17.743\n350\tMarseille Mini Autos\tLebihan\tLaurence \t91.24.4555\t12, rue des Bouchers\t(NULL)\tMarseille\t(NULL)\t13008\tFrance\t1337\t65000.0\t2024-12-20 14:12:17.743\n353\tReims Collectables\tHenriot\tPaul \t26.47.1555\t59 rue de l'Abbaye\t(NULL)\tReims\t(NULL)\t51100\tFrance\t1337\t81100.0\t2024-12-20 14:12:17.760\n356\tSAR Distributors, Co\tKuger\tArmand\t+27 21 550 3555\t1250 Pretorius Street\t(NULL)\tHatfield\tPretoria\t0028\tSouth Africa\t(NULL)\t0.0\t2024-12-20 14:12:17.761\n357\tGiftsForHim.com\tMacKinlay\tWales\t64-9-3763555\t199 Great North Road\t(NULL)\tAuckland\t(NULL)\t(NULL)\tNew Zealand\t1612\t77700.0\t2024-12-20 14:12:17.761\n361\tKommission Auto\tJosephs\tKarin\t0251-555259\tLuisenstr. 48\t(NULL)\tMünster\t(NULL)\t44087\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.762\n362\tGifts4AllAges.com\tYoshido\tJuri\t6175559555\t8616 Spinnaker Dr.\t(NULL)\tBoston\tMA\t51003\tUSA\t1216\t41900.0\t2024-12-20 14:12:17.762\n363\tOnline Diecast Creations Co.\tYoung\tDorothy\t6035558647\t2304 Long Airport Avenue\t(NULL)\tNashua\tNH\t62005\tUSA\t1216\t114200.0\t2024-12-20 14:12:17.763\n369\tLisboa Souveniers, Inc\tRodriguez\tLino \t(1) 354-2555\tJardim das rosas n. 32\t(NULL)\tLisboa\t(NULL)\t1675\tPortugal\t(NULL)\t0.0\t2024-12-20 14:12:17.763\n376\tPrecious Collectables\tUrs\tBraun\t0452-076555\tHauptstr. 29\t(NULL)\tBern\t(NULL)\t3012\tSwitzerland\t1702\t0.0\t2024-12-20 14:12:17.764\n379\tCollectables For Less Inc.\tNelson\tAllen\t6175558555\t7825 Douglas Av.\t(NULL)\tBrickhaven\tMA\t58339\tUSA\t1188\t70700.0\t2024-12-20 14:12:17.764\n381\tRoyale Belge\tCartrain\tPascale \t(071) 23 67 2555\tBoulevard Tirou, 255\t(NULL)\tCharleroi\t(NULL)\tB-6000\tBelgium\t1401\t23500.0\t2024-12-20 14:12:17.765\n382\tSalzburg Collectables\tPipps\tGeorg \t6562-9555\tGeislweg 14\t(NULL)\tSalzburg\t(NULL)\t5020\tAustria\t1401\t71700.0\t2024-12-20 14:12:17.765\n385\tCruz & Sons Co.\tCruz\tArnold\t+63 2 555 3587\t15 McCallum Street\tNatWest Center #13-03\tMakati City\t(NULL)\t1227 MM\tPhilippines\t1621\t81500.0\t2024-12-20 14:12:17.765\n386\tL'ordine Souveniers\tMoroni\tMaurizio \t0522-556555\tStrada Provinciale 124\t(NULL)\tReggio Emilia\t(NULL)\t42100\tItaly\t1401\t121400.0\t2024-12-20 14:12:17.771\n398\tTokyo Collectables, Ltd\tShimamura\tAkiko\t+81 3 3584 0555\t2-2-8 Roppongi\t(NULL)\tMinato-ku\tTokyo\t106-0032\tJapan\t1621\t94400.0\t2024-12-20 14:12:17.772\n406\tAuto Canal+ Petit\tPerrier\tDominique\t(1) 47.55.6555\t25, rue Lauriston\t(NULL)\tParis\t(NULL)\t75016\tFrance\t1337\t95000.0\t2024-12-20 14:12:17.780\n409\tStuttgart Collectable Exchange\tMüller\tRita \t0711-555361\tAdenauerallee 900\t(NULL)\tStuttgart\t(NULL)\t70563\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.781\n412\tExtreme Desk Decorations, Ltd\tMcRoy\tSarah\t04 499 9555\t101 Lambton Quay\tLevel 11\tWellington\t(NULL)\t(NULL)\tNew Zealand\t1612\t86800.0\t2024-12-20 14:12:17.782\n415\tBavarian Collectables Imports, Co.\tDonnermeyer\tMichael\t +49 89 61 08 9555\tHansastr. 15\t(NULL)\tMunich\t(NULL)\t80686\tGermany\t1504\t77000.0\t2024-12-20 14:12:17.784\n424\tClassic Legends Inc.\tHernandez\tMaria\t2125558493\t5905 Pompton St.\tSuite 750\tNYC\tNY\t10022\tUSA\t1286\t67500.0\t2024-12-20 14:12:17.785\n443\tFeuer Online Stores, Inc\tFeuer\tAlexander \t0342-555176\tHeerstr. 22\t(NULL)\tLeipzig\t(NULL)\t04179\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.790\n447\tGift Ideas Corp.\tLewis\tDan\t2035554407\t2440 Pompton St.\t(NULL)\tGlendale\tCT\t97561\tUSA\t1323\t49700.0\t2024-12-20 14:12:17.791\n448\tScandinavian Gift Ideas\tLarsson\tMartha\t0695-34 6555\tÅkergatan 24\t(NULL)\tBräcke\t(NULL)\tS-844 67\tSweden\t1504\t116400.0\t2024-12-20 14:12:17.791\n450\tThe Sharp Gifts Warehouse\tFrick\tSue\t4085553659\t3086 Ingle Ln.\t(NULL)\tSan Jose\tCA\t94217\tUSA\t1165\t77600.0\t2024-12-20 14:12:17.792\n452\tMini Auto Werke\tMendel\tRoland \t7675-3555\tKirchgasse 6\t(NULL)\tGraz\t(NULL)\t8010\tAustria\t1401\t45300.0\t2024-12-20 14:12:17.792\n455\tSuper Scale Inc.\tMurphy\tLeslie\t2035559545\t567 North Pendale Street\t(NULL)\tNew Haven\tCT\t97823\tUSA\t1286\t95400.0\t2024-12-20 14:12:17.802\n456\tMicroscale Inc.\tChoi\tYu\t2125551957\t5290 North Pendale Street\tSuite 200\tNYC\tNY\t10022\tUSA\t1286\t39800.0\t2024-12-20 14:12:17.802\n458\tCorrida Auto Replicas, Ltd\tSommer\tMartín \t(91) 555 22 82\tC/ Araquil, 67\t(NULL)\tMadrid\t(NULL)\t28023\tSpain\t1702\t104600.0\t2024-12-20 14:12:17.808\n459\tWarburg Exchange\tOttlieb\tSven \t0241-039123\tWalserweg 21\t(NULL)\tAachen\t(NULL)\t52066\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.808\n462\tFunGiftIdeas.com\tBenitez\tVioleta\t5085552555\t1785 First Street\t(NULL)\tNew Bedford\tMA\t50553\tUSA\t1216\t85800.0\t2024-12-20 14:12:17.809\n465\tAnton Designs, Ltd.\tAnton\tCarmen\t+34 913 728555\tc/ Gobelas, 19-1 Urb. La Florida\t(NULL)\tMadrid\t(NULL)\t28023\tSpain\t(NULL)\t0.0\t2024-12-20 14:12:17.826\n471\tAustralian Collectables, Ltd\tClenahan\tSean\t61-9-3844-6555\t7 Allen Street\t(NULL)\tGlen Waverly\tVictoria\t3150\tAustralia\t1611\t60300.0\t2024-12-20 14:12:17.826\n473\tFrau da Collezione\tRicotti\tFranco\t+39 022515555\t20093 Cologno Monzese\tAlessandro Volta 16\tMilan\t(NULL)\t(NULL)\tItaly\t1401\t34800.0\t2024-12-20 14:12:17.827\n475\tWest Coast Collectables Co.\tThompson\tSteve\t3105553722\t3675 Furth Circle\t(NULL)\tBurbank\tCA\t94019\tUSA\t1166\t55400.0\t2024-12-20 14:12:17.827\n477\tMit Vergnügen & Co.\tMoos\tHanna \t0621-08555\tForsterstr. 57\t(NULL)\tMannheim\t(NULL)\t68306\tGermany\t(NULL)\t0.0\t2024-12-20 14:12:17.828\n480\tKremlin Collectables, Co.\tSemenov\tAlexander \t+7 812 293 0521\t2 Pobedy Square\t(NULL)\tSaint Petersburg\t(NULL)\t196143\tRussia\t(NULL)\t0.0\t2024-12-20 14:12:17.830\n481\tRaanan Stores, Inc\tAltagar,G M\tRaanan\t+ 972 9 959 8555\t3 Hagalim Blv.\t(NULL)\tHerzlia\t(NULL)\t47625\tIsrael\t(NULL)\t0.0\t2024-12-20 14:12:17.830\n484\tIberia Gift Imports, Corp.\tRoel\tJosé Pedro \t(95) 555 82 82\tC/ Romero, 33\t(NULL)\tSevilla\t(NULL)\t41101\tSpain\t1702\t65700.0\t2024-12-20 14:12:17.831\n486\tMotor Mint Distributors Inc.\tSalazar\tRosa\t2155559857\t11328 Douglas Av.\t(NULL)\tPhiladelphia\tPA\t71270\tUSA\t1323\t72600.0\t2024-12-20 14:12:17.833\n487\tSignal Collectibles Ltd.\tTaylor\tSue\t4155554312\t2793 Furth Circle\t(NULL)\tBrisbane\tCA\t94217\tUSA\t1165\t60300.0\t2024-12-20 14:12:17.833\n489\tDouble Decker Gift Stores, Ltd\tSmith\tThomas \t(171) 555-7555\t120 Hanover Sq.\t(NULL)\tLondon\t(NULL)\tWA1 1DP\tUK\t1501\t43300.0\t2024-12-20 14:12:17.843\n495\tDiecast Collectables\tFranco\tValarie\t6175552555\t6251 Ingle Ln.\t(NULL)\tBoston\tMA\t51003\tUSA\t1188\t85100.0\t2024-12-20 14:12:17.845\n496\tKelly's Gift Shop\tSnowden\tTony\t+64 9 5555500\tArenales 1938 3'A'\t(NULL)\tAuckland  \t(NULL)\t(NULL)\tNew Zealand\t1612\t110000.0\t2024-12-20 14:12:17.845\n498\tGreat Toys\tSmith\tJhon\t1234567\t106 Linden Road Sandown\t4th Floor\tSingapore\t(NULL)\t69045\tSingapore\t1621\t10000.0\t2024-12-20 14:46:02.503\n500\tGames & Toys\tMurphy\t Susan\t987654321\t5540 North Pendale Street\tLevel 2\tSan Francisco\tCA\t94217\tUSA\t1165\t0.0\t2024-12-20 14:46:02.509\n501\tScaled Toys Distributors, Ltd.\tYoung\tMary\t212557411\t4092 Furth Circle\tSuite 500\tNYC\tNY\t10022\tUSA\t1504\t200000.0\t2024-12-20 14:46:02.510\n",
+            "type": "TABLE"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n2.1.3. You can use all types of connectors, for example a JDBC one to connect with SQL databases:\n\n```sql\nCREATE TABLE TargetTable (\n    ...\n) WITH (\n  'connector' = 'jdbc',\n  'url' = '<JDBC_URL>',\n  'table-name' = '<TARGET_SCHEMA>.<TARGET_TABLE>',\n  'username' = '<DATABASE_USER>',\n  'password' = '<DATABASE_PASSWORD>'\n);\n```\n\nLet's now define the `dest_customers` output table connecting to an existing table in the Postgres RDS target database, specifically the `classicmodels_star_schema.dim_customers` table. Use this configuration for the target table connection:\n\n```sql\nCREATE TABLE dest_customers (\n    ...\n) WITH (\n  'connector' = 'jdbc',\n  'url' = 'jdbc:postgresql://<POSTGRES_ENDPOINT>:5432/postgres',\n  'table-name' = 'classicmodels_star_schema.dim_customers',\n  'username' = 'postgresuser',\n  'password' = 'adminpwrd'\n); \n```\n\nExchange the placeholder `<POSTGRES_ENDPOINT>` (including the brackets `<>`) with the `PostgresEndpoint` value from the Cloudformation Output.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>2.1.3. You can use all types of connectors, for example a JDBC one to connect with SQL databases:</p>\n<pre><code class=\"language-sql\">CREATE TABLE TargetTable (\n    ...\n) WITH (\n  'connector' = 'jdbc',\n  'url' = '&lt;JDBC_URL&gt;',\n  'table-name' = '&lt;TARGET_SCHEMA&gt;.&lt;TARGET_TABLE&gt;',\n  'username' = '&lt;DATABASE_USER&gt;',\n  'password' = '&lt;DATABASE_PASSWORD&gt;'\n);\n</code></pre>\n<p>Let&rsquo;s now define the <code>dest_customers</code> output table connecting to an existing table in the Postgres RDS target database, specifically the <code>classicmodels_star_schema.dim_customers</code> table. Use this configuration for the target table connection:</p>\n<pre><code class=\"language-sql\">CREATE TABLE dest_customers (\n    ...\n) WITH (\n  'connector' = 'jdbc',\n  'url' = 'jdbc:postgresql://&lt;POSTGRES_ENDPOINT&gt;:5432/postgres',\n  'table-name' = 'classicmodels_star_schema.dim_customers',\n  'username' = 'postgresuser',\n  'password' = 'adminpwrd'\n); \n</code></pre>\n<p>Exchange the placeholder <code>&lt;POSTGRES_ENDPOINT&gt;</code> (including the brackets <code>&lt;&gt;</code>) with the <code>PostgresEndpoint</code> value from the Cloudformation Output.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180034_69629948",
+      "id": "20240706-000147_169543490",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40576"
+    },
+    {
+      "text": "%flink.ssql\nDROP TABLE IF EXISTS dest_customers;\n\nCREATE TABLE dest_customers (\n    `customer_key` INT,\n    `customer_name` STRING,\n    `customer_last_name` STRING,\n    `customer_first_name` STRING,\n    `phone` STRING,\n    `address_line_1` STRING,\n    `address_line_2` STRING,\n    `postal_code` STRING,\n    `city` STRING,\n    `state` STRING,\n    `country` STRING,\n    `creditlimit` FLOAT,\n    `updated_at` TIMESTAMP(3),\n     PRIMARY KEY (`customer_key`)  NOT ENFORCED\n) WITH (\n  'connector' = 'jdbc',\n  'url' = 'jdbc:postgresql://de-c4w3lab1-rds.c5y462o64kyl.us-east-1.rds.amazonaws.com:5432/postgres',\n  'table-name' = 'classicmodels_star_schema.dim_customers',\n  'username' = 'postgresuser',\n  'password' = 'adminpwrd'\n);",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:41:23+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180035_241075905",
+      "id": "20240706-000147_209744750",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40577",
+      "dateFinished": "2024-12-20T14:41:23+0000",
+      "dateStarted": "2024-12-20T14:41:23+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n\n### 2.2 - Moving Data\n\nYou can create an INSERT statement to move data from the source table `source_customers` into the output table `dest_customers`. This process will run indefinitely as a Flink Job, constantly reading from the `source_customers` table, and when new data comes, it is inserted in the `dest_customers`.\n\n```sql\nINSERT INTO dest_customers \nSELECT\n    ...\nFROM source_customers;\n```",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h3>2.2 - Moving Data</h3>\n<p>You can create an INSERT statement to move data from the source table <code>source_customers</code> into the output table <code>dest_customers</code>. This process will run indefinitely as a Flink Job, constantly reading from the <code>source_customers</code> table, and when new data comes, it is inserted in the <code>dest_customers</code>.</p>\n<pre><code class=\"language-sql\">INSERT INTO dest_customers \nSELECT\n    ...\nFROM source_customers;\n</code></pre>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180035_670581358",
+      "id": "20240706-000147_995149906",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40578"
+    },
+    {
+      "text": "%md\n2.2.1. Add the table names into the query below to insert into the `dest_customers` the required data from the `source_customers`.\n\nThis will run indefinitely as a Flink Job, so you will keep it running while testing the CDC pipeline. Afterwards, cancel the job using the pause icon in the top right section of the following cell. Wait a few minutes until you see the message: \"**Duration:** ... minutes ... seconds\". After that you can continue.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>2.2.1. Add the table names into the query below to insert into the <code>dest_customers</code> the required data from the <code>source_customers</code>.</p>\n<p>This will run indefinitely as a Flink Job, so you will keep it running while testing the CDC pipeline. Afterwards, cancel the job using the pause icon in the top right section of the following cell. Wait a few minutes until you see the message: &ldquo;<strong>Duration:</strong> &hellip; minutes &hellip; seconds&rdquo;. After that you can continue.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180035_1375773153",
+      "id": "paragraph_1720768574186_965930031",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40579"
+    },
+    {
+      "text": "%flink.ssql\n\nINSERT INTO dest_customers (customer_key, customer_name, customer_last_name, customer_first_name, phone, address_line_1, address_line_2, postal_code, city, state, country, creditlimit ,updated_at)\nSELECT customerNumber, customerName, contactLastName, contactFirstName, phone, addressLine1, addressLine2, postalCode, city, state, country, creditLimit, event_time\nFROM source_customers;\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:42:17+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "FLINK JOB",
+          "tooltip": "View in Flink web UI",
+          "group": "flink",
+          "values": [
+            {
+              "jobUrl": "http://localhost:8081#/job/3712a66f4d29e922cab9ccbf3d9574e6",
+              "$$hashKey": "object:89593"
+            }
+          ],
+          "interpreterSettingId": "flink"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180035_357556339",
+      "id": "20240706-000147_215494196",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "RUNNING",
+      "$$hashKey": "object:40580",
+      "dateStarted": "2024-12-20T14:42:17+0000",
+      "results": {
+        "msg": [
+          {
+            "data": "<h1>Duration: {{duration}} </h1>\n",
+            "type": "ANGULAR"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n2.2.2. To check that the `INSERT` statement is working, specify the table `classicmodels_star_schema.dim_customers` in the queries below. Use the `%psql` Interpreter to run them:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>2.2.2. To check that the <code>INSERT</code> statement is working, specify the table <code>classicmodels_star_schema.dim_customers</code> in the queries below. Use the <code>%psql</code> Interpreter to run them:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180035_836550490",
+      "id": "20240706-000147_1588271610",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40581"
+    },
+    {
+      "text": "%psql\nselect * from classicmodels_star_schema.dim_customers limit 10;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:43:34+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "customer_key": "string",
+                      "customer_name": "string",
+                      "customer_last_name": "string",
+                      "customer_first_name": "string",
+                      "phone": "string",
+                      "address_line_1": "string",
+                      "address_line_2": "string",
+                      "postal_code": "string",
+                      "city": "string",
+                      "state": "string",
+                      "country": "string",
+                      "creditlimit": "string",
+                      "updated_at": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180035_1269328235",
+      "id": "20240706-000147_561274967",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40582",
+      "dateFinished": "2024-12-20T14:43:34+0000",
+      "dateStarted": "2024-12-20T14:43:34+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "customer_key\tcustomer_name\tcustomer_last_name\tcustomer_first_name\tphone\taddress_line_1\taddress_line_2\tpostal_code\tcity\tstate\tcountry\tcreditlimit\tupdated_at\n223\tNatürlich Autos\tKloss\tHorst \t0372-555188\tTaucherstraße 10\tnull\t01307\tCunewalde\tnull\tGermany\t0\t2024-12-20 14:12:17.638\n227\tHeintze Collectables\tIbsen\tPalle\t86 21 3555\tSmagsloget 45\tnull\t8200\tÅrhus\tnull\tDenmark\t120800\t2024-12-20 14:12:17.638\n219\tBoards & Toys Co.\tYoung\tMary\t3105552373\t4097 Douglas Av.\tnull\t92561\tGlendale\tCA\tUSA\t11000\t2024-12-20 14:12:17.638\n216\tEnaco Distributors\tSaavedra\tEduardo \t(93) 203 4555\tRambla de Cataluña, 23\tnull\t08022\tBarcelona\tnull\tSpain\t60300\t2024-12-20 14:12:17.637\n206\tAsian Shopping Network, Co\tWalker\tBrydey\t+612 9411 1555\tSuntec Tower Three\t8 Temasek\t038988\tSingapore\tnull\tSingapore\t0\t2024-12-20 14:12:17.631\n204\tOnline Mini Collectables\tBarajas\tMiguel\t6175557555\t7635 Spinnaker Dr.\tnull\t58339\tBrickhaven\tMA\tUSA\t68700\t2024-12-20 14:12:17.621\n205\tToys4GrownUps.com\tYoung\tJulie\t6265557265\t78934 Hillside Dr.\tnull\t90003\tPasadena\tCA\tUSA\t90700\t2024-12-20 14:12:17.624\n211\tKing Kong Collectables, Co.\tGao\tMike\t+852 2251 1555\tBank of China Tower\t1 Garden Road\tnull\tCentral Hong Kong\tnull\tHong Kong\t58600\t2024-12-20 14:12:17.632\n209\tMini Caravy\tCiteaux\tFrédérique \t88.60.1555\t24, place Kléber\tnull\t67000\tStrasbourg\tnull\tFrance\t53800\t2024-12-20 14:12:17.632\n198\tAuto-Moto Classics Inc.\tTaylor\tLeslie\t6175558428\t16780 Pompton St.\tnull\t58339\tBrickhaven\tMA\tUSA\t23000\t2024-12-20 14:12:17.617\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%psql\nselect count(*) from classicmodels_star_schema.dim_customers;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:44:02+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180035_1082840411",
+      "id": "20240706-000147_655804746",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40583",
+      "dateFinished": "2024-12-20T14:44:03+0000",
+      "dateStarted": "2024-12-20T14:44:03+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "count\n122\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n### 2.3 - CDC Process\n\nNow that you can see that data in the destination database has been uploaded, you will see how the CDC process works. ",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h3>2.3 - CDC Process</h3>\n<p>Now that you can see that data in the destination database has been uploaded, you will see how the CDC process works.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180035_1831301137",
+      "id": "20240706-000147_240302832",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40584"
+    },
+    {
+      "text": "%md\n2.3.1. Insert some new data into the MySQL `customers` table and will see that the data is also inserted automatically in the destination database in PostgreSQL at the `dim_customer` table. Make sure that the insertion cell `INSERT INTO dest_customers` (step 2.2.1.) is also running.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>2.3.1. Insert some new data into the MySQL <code>customers</code> table and will see that the data is also inserted automatically in the destination database in PostgreSQL at the <code>dim_customer</code> table. Make sure that the insertion cell <code>INSERT INTO dest_customers</code> (step 2.2.1.) is also running.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180036_765397248",
+      "id": "paragraph_1720769880568_701886058",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40585"
+    },
+    {
+      "text": "%mysql\nINSERT INTO classicmodels.customers (customerNumber, customerName, contactLastName, contactFirstName, phone, addressLine1, addressLine2, city, state, postalCode, country, salesRepEmployeeNumber, creditLimit)\nVALUES (498, 'Great Toys', 'Smith', 'Jhon', '1234567', '106 Linden Road Sandown', '4th Floor', 'Singapore', null, 069045, 'Singapore', 1621, 10000 ), \n(500, 'Games & Toys', 'Murphy', ' Susan', '987654321', '5540 North Pendale Street', 'Level 2', 'San Francisco', 'CA', 94217, 'USA', 1165, 0.0 ),\n(501, 'Scaled Toys Distributors, Ltd.', 'Young', 'Mary', '212557411', '4092 Furth Circle', 'Suite 500', 'NYC', 'NY', 10022, 'USA', 1504, 200000 );",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:46:39+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180036_2038793323",
+      "id": "20240706-000147_1627347575",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "ERROR",
+      "$$hashKey": "object:40586",
+      "dateFinished": "2024-12-20T14:46:39+0000",
+      "dateStarted": "2024-12-20T14:46:39+0000",
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Duplicate entry '498' for key 'customers.PRIMARY'"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%mysql\nSELECT count(*) FROM classicmodels.customers;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:46:07+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "count(*)": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180036_107861336",
+      "id": "20240706-000147_1644951783",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40587",
+      "dateFinished": "2024-12-20T14:46:07+0000",
+      "dateStarted": "2024-12-20T14:46:07+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "count(*)\n125\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n2.3.2. Remember to make sure that the insertion cell `INSERT INTO dest_customers` is currently running, otherwise, run it again and then run the following cell to count the number of rows in the `dim_customers` table at the PostgreSQL database.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>2.3.2. Remember to make sure that the insertion cell <code>INSERT INTO dest_customers</code> is currently running, otherwise, run it again and then run the following cell to count the number of rows in the <code>dim_customers</code> table at the PostgreSQL database.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180036_1677244690",
+      "id": "20240706-000147_1942364533",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40588"
+    },
+    {
+      "text": "%psql\nselect count(*) from classicmodels_star_schema.dim_customers;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:46:43+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180036_2006444525",
+      "id": "20240706-000147_1759023303",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40589",
+      "dateFinished": "2024-12-20T14:46:44+0000",
+      "dateStarted": "2024-12-20T14:46:43+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "count\n125\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\nYou should have seen that the new 3 rows have been inserted. Even if you try to delete or update any of those rows in the MySQL source database, those changes will also be propagated to the destination PostgreSQL table.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>You should have seen that the new 3 rows have been inserted. Even if you try to delete or update any of those rows in the MySQL source database, those changes will also be propagated to the destination PostgreSQL table.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180036_898877795",
+      "id": "20240706-000147_1919828809",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40590"
+    },
+    {
+      "text": "%md\n2.3.3. Let's delete the customer with customer key `501` as you were told that this company is no longer one of your customers.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>2.3.3. Let&rsquo;s delete the customer with customer key <code>501</code> as you were told that this company is no longer one of your customers.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180044_2019692080",
+      "id": "paragraph_1720770028921_565838310",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40591"
+    },
+    {
+      "text": "%mysql\nDELETE FROM classicmodels.customers WHERE customerNumber = 501;\n\nSELECT COUNT(*) FROM classicmodels.customers;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:47:13+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "COUNT(*)": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180044_66229513",
+      "id": "20240706-000147_2113611624",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40592",
+      "dateFinished": "2024-12-20T14:47:14+0000",
+      "dateStarted": "2024-12-20T14:47:13+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : 1\n"
+          },
+          {
+            "type": "TABLE",
+            "data": "COUNT(*)\n124\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n2.3.4. Inspect the result in the `dim_customers` table in PostgreSQL.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>2.3.4. Inspect the result in the <code>dim_customers</code> table in PostgreSQL.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180044_986607819",
+      "id": "20240706-000147_1585858351",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40593"
+    },
+    {
+      "text": "%psql\nSELECT COUNT(*) FROM classicmodels_star_schema.dim_customers;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:51:29+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180045_1703844427",
+      "id": "20240706-000147_1609124481",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40594",
+      "dateFinished": "2024-12-20T14:51:29+0000",
+      "dateStarted": "2024-12-20T14:51:29+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "count\n124\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\nYou have seen how insertion and deletion processes are propagated from the source system into the destination system through the CDC process. Now, you can stop the `INSERT INTO dest_customers` cell (step 2.2.1.) to release the task. If the cell associated with this command: \n\n```SQL\nSELECT *\nFROM source_customers limit 5;\n````\n\nis also running (step 2.1.2.), make sure to stop it before continuing with the following section.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>You have seen how insertion and deletion processes are propagated from the source system into the destination system through the CDC process. Now, you can stop the <code>INSERT INTO dest_customers</code> cell (step 2.2.1.) to release the task. If the cell associated with this command:</p>\n<pre><code class=\"language-SQL\">SELECT *\nFROM source_customers limit 5;\n</code></pre>\n<p>is also running (step 2.1.2.), make sure to stop it before continuing with the following section.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180045_36905400",
+      "id": "20240706-000147_1129283432",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40595"
+    },
+    {
+      "text": "%md\n## 3 - Products Dimension\n\nNow you will define the pipeline for the `dim_products` dimensional table, review the original `products` and `productlines` table from the source system, use the `%mysql` interpreter to run the following cells:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>3 - Products Dimension</h2>\n<p>Now you will define the pipeline for the <code>dim_products</code> dimensional table, review the original <code>products</code> and <code>productlines</code> table from the source system, use the <code>%mysql</code> interpreter to run the following cells:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180045_1621919865",
+      "id": "20240706-000147_1686186396",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40596"
+    },
+    {
+      "text": "%mysql\nSELECT * FROM classicmodels.products limit 10;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:52:54+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "productCode": "string",
+                      "productName": "string",
+                      "productLine": "string",
+                      "productScale": "string",
+                      "productVendor": "string",
+                      "productDescription": "string",
+                      "quantityInStock": "string",
+                      "buyPrice": "string",
+                      "MSRP": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180045_711276960",
+      "id": "20240706-000147_2011637056",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40597",
+      "dateFinished": "2024-12-20T14:52:54+0000",
+      "dateStarted": "2024-12-20T14:52:54+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "productCode\tproductName\tproductLine\tproductScale\tproductVendor\tproductDescription\tquantityInStock\tbuyPrice\tMSRP\nS10_1678\t1969 Harley Davidson Ultimate Chopper\tMotorcycles\t1:10\tMin Lin Diecast\tThis replica features working kickstand, front suspension, gear-shift lever, footbrake lever, drive chain, wheels and steering. All parts are particularly delicate due to their precise scale and require special care and attention.\t7933\t48.81\t95.70\nS10_1949\t1952 Alpine Renault 1300\tClassic Cars\t1:10\tClassic Metal Creations\tTurnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.\t7305\t98.58\t214.30\nS10_2016\t1996 Moto Guzzi 1100i\tMotorcycles\t1:10\tHighway 66 Mini Classics\tOfficial Moto Guzzi logos and insignias, saddle bags located on side of motorcycle, detailed engine, working steering, working suspension, two leather seats, luggage rack, dual exhaust pipes, small saddle bag located on handle bars, two-tone paint with chrome accents, superior die-cast detail , rotating wheels , working kick stand, diecast metal with plastic parts and baked enamel finish.\t6625\t68.99\t118.94\nS10_4698\t2003 Harley-Davidson Eagle Drag Bike\tMotorcycles\t1:10\tRed Start Diecast\tModel features, official Harley Davidson logos and insignias, detachable rear wheelie bar, heavy diecast metal with resin parts, authentic multi-color tampo-printed graphics, separate engine drive belts, free-turning front fork, rotating tires and rear racing slick, certificate of authenticity, detailed engine, display stand , precision diecast replica, baked enamel finish, 1:10 scale model, removable fender, seat and tank cover piece for displaying the superior detail of the v-twin engine\t5582\t91.02\t193.66\nS10_4757\t1972 Alfa Romeo GTA\tClassic Cars\t1:10\tMotor City Art Classics\tFeatures include: Turnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.\t3252\t85.68\t136.00\nS10_4962\t1962 LanciaA Delta 16V\tClassic Cars\t1:10\tSecond Gear Diecast\tFeatures include: Turnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.\t6791\t103.42\t147.74\nS12_1099\t1968 Ford Mustang\tClassic Cars\t1:12\tAutoart Studio Design\tHood, doors and trunk all open to reveal highly detailed interior features. Steering wheel actually turns the front wheels. Color dark green.\t68\t95.34\t194.57\nS12_1108\t2001 Ferrari Enzo\tClassic Cars\t1:12\tSecond Gear Diecast\tTurnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.\t3619\t95.59\t207.80\nS12_1666\t1958 Setra Bus\tTrucks and Buses\t1:12\tWelly Diecast Productions\tModel features 30 windows, skylights & glare resistant glass, working steering system, original logos\t1579\t77.90\t136.67\nS12_2823\t2002 Suzuki XREO\tMotorcycles\t1:12\tUnimax Art Galleries\tOfficial logos and insignias, saddle bags located on side of motorcycle, detailed engine, working steering, working suspension, two leather seats, luggage rack, dual exhaust pipes, small saddle bag located on handle bars, two-tone paint with chrome accents, superior die-cast detail , rotating wheels , working kick stand, diecast metal with plastic parts and baked enamel finish.\t9997\t66.27\t150.62\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%mysql\nSELECT * FROM classicmodels.productlines limit 10;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:52:59+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "productLine": "string",
+                      "textDescription": "string",
+                      "htmlDescription": "string",
+                      "image": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180045_1795662249",
+      "id": "20240706-000147_899268700",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40598",
+      "dateFinished": "2024-12-20T14:52:59+0000",
+      "dateStarted": "2024-12-20T14:52:59+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "productLine\ttextDescription\thtmlDescription\timage\nClassic Cars\tAttention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.\tnull\tnull\nMotorcycles\tOur motorcycles are state of the art replicas of classic as well as contemporary motorcycle legends such as Harley Davidson, Ducati and Vespa. Models contain stunning details such as official logos, rotating wheels, working kickstand, front suspension, gear-shift lever, footbrake lever, and drive chain. Materials used include diecast and plastic. The models range in size from 1:10 to 1:50 scale and include numerous limited edition and several out-of-production vehicles. All models come fully assembled and ready for display in the home or office. Most include a certificate of authenticity.\tnull\tnull\nPlanes\tUnique, diecast airplane and helicopter replicas suitable for collections, as well as home, office or classroom decorations. Models contain stunning details such as official logos and insignias, rotating jet engines and propellers, retractable wheels, and so on. Most come fully assembled and with a certificate of authenticity from their manufacturers.\tnull\tnull\nShips\tThe perfect holiday or anniversary gift for executives, clients, friends, and family. These handcrafted model ships are unique, stunning works of art that will be treasured for generations! They come fully assembled and ready for display in the home or office. We guarantee the highest quality, and best value.\tnull\tnull\nTrains\tModel trains are a rewarding hobby for enthusiasts of all ages. Whether you're looking for collectible wooden trains, electric streetcars or locomotives, you'll find a number of great choices for any budget within this category. The interactive aspect of trains makes toy trains perfect for young children. The wooden train sets are ideal for children under the age of 5.\tnull\tnull\nTrucks and Buses\tThe Truck and Bus models are realistic replicas of buses and specialized trucks produced from the early 1920s to present. The models range in size from 1:12 to 1:50 scale and include numerous limited edition and several out-of-production vehicles. Materials used include tin, diecast and plastic. All models include a certificate of authenticity from their manufacturers and are a perfect ornament for the home and office.\tnull\tnull\nVintage Cars\tOur Vintage Car models realistically portray automobiles produced from the early 1900s through the 1940s. Materials used include Bakelite, diecast, plastic and wood. Most of the replicas are in the 1:18 and 1:24 scale sizes, which provide the optimum in detail and accuracy. Prices range from $30.00 up to $180.00 for some special limited edition replicas. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.\tnull\tnull\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n3.1. Define the input tables `source_products` and `source_productlines` using the `%flink.ssql` Interpreter in the following two cells. As in the previous section, the data will be coming from Kafka topics connected to Debezium and the source system. Use the same configuration as the previous table connection (steps 2.1.1. and 2.1.2.), changing the topics to `dbserver1.classicmodels.products` and `dbserver1.classicmodels.productlines` respectively. Don't forget to add the metadata column `event_time` to each source table.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>3.1. Define the input tables <code>source_products</code> and <code>source_productlines</code> using the <code>%flink.ssql</code> Interpreter in the following two cells. As in the previous section, the data will be coming from Kafka topics connected to Debezium and the source system. Use the same configuration as the previous table connection (steps 2.1.1. and 2.1.2.), changing the topics to <code>dbserver1.classicmodels.products</code> and <code>dbserver1.classicmodels.productlines</code> respectively. Don&rsquo;t forget to add the metadata column <code>event_time</code> to each source table.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180045_1545272063",
+      "id": "20240706-000147_1539966398",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40599"
+    },
+    {
+      "text": "%flink.ssql\nDROP TABLE IF EXISTS source_products;\n\nCREATE TABLE source_products (\n    `productCode` STRING,\n    `productName` STRING,\n    `productLine` STRING,\n    `productScale` STRING,\n    `productVendor` STRING,\n    `productDescription` STRING,\n    `quantityInStock` INT,\n    `buyPrice` FLOAT,\n    `MSRP` FLOAT,\n    `event_time` TIMESTAMP(3) METADATA FROM 'timestamp',\n    PRIMARY KEY (`productCode`) NOT ENFORCED\n) WITH (\n  'connector' = 'kafka',\n  'topic' = 'dbserver1.classicmodels.products',\n  'properties.bootstrap.servers' = 'kafka:9092',\n  'properties.group.id' = 'testGroup',\n  'format' = 'debezium-json',\n  'scan.startup.mode' = 'earliest-offset',\n  'debezium-json.schema-include' = 'true'\n);\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:59:12+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180045_2058755980",
+      "id": "20240706-000147_921307794",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40600",
+      "dateFinished": "2024-12-20T14:59:12+0000",
+      "dateStarted": "2024-12-20T14:59:12+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%flink.ssql\nDROP TABLE IF EXISTS source_productlines;\n\nCREATE TABLE source_productlines (\n    `productLine` STRING,\n    `textDescription` STRING,\n    `event_time` TIMESTAMP(3) METADATA FROM 'timestamp',\n    PRIMARY KEY (`productLine`) NOT ENFORCED\n) WITH (\n  'connector' = 'kafka',\n  'topic' = 'dbserver1.classicmodels.productlines',\n  'properties.bootstrap.servers' = 'kafka:9092',\n  'properties.group.id' = 'testGroup',\n  'format' = 'debezium-json',\n  'scan.startup.mode' = 'earliest-offset',\n  'debezium-json.schema-include' = 'true'\n);\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:59:36+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180045_723942059",
+      "id": "20240706-000147_2020209706",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40601",
+      "dateFinished": "2024-12-20T14:59:36+0000",
+      "dateStarted": "2024-12-20T14:59:36+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n3.2. Define the `dest_products` table, this will point to the Postgres RDS target database, specifically the `classicmodels_star_schema.dim_products` table. Exchange the placeholder `<POSTGRES_ENDPOINT>` (including the brackets `<>`) with the `PostgresEndpoint` value from the Cloudformation Output and all of the `None` with the required values.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>3.2. Define the <code>dest_products</code> table, this will point to the Postgres RDS target database, specifically the <code>classicmodels_star_schema.dim_products</code> table. Exchange the placeholder <code>&lt;POSTGRES_ENDPOINT&gt;</code> (including the brackets <code>&lt;&gt;</code>) with the <code>PostgresEndpoint</code> value from the Cloudformation Output and all of the <code>None</code> with the required values.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180046_2115275130",
+      "id": "20240706-000147_59330651",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40602"
+    },
+    {
+      "text": "%flink.ssql\nDROP TABLE IF EXISTS dest_products;\n\nCREATE TABLE dest_products (\n    `product_key` STRING,\n\t`product_name` STRING,\n\t`product_line` STRING,\n\t`product_scale` STRING,\n\t`product_vendor` STRING,\n\t`product_description` STRING,\n\t`product_line_description` STRING,\n\t`updated_at` TIMESTAMP(3),\n     PRIMARY KEY (`product_key`)  NOT ENFORCED\n) WITH (\n  'connector' = 'jdbc',\n  'url' = 'jdbc:postgresql://de-c4w3lab1-rds.c5y462o64kyl.us-east-1.rds.amazonaws.com:5432/postgres',\n  'table-name' = 'classicmodels_star_schema.dim_products',\n  'username' = 'postgresuser',\n  'password' = 'adminpwrd'\n);",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:03:53+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180046_478017481",
+      "id": "20240706-000147_1787769600",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40603",
+      "dateFinished": "2024-12-20T15:03:53+0000",
+      "dateStarted": "2024-12-20T15:03:53+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n3.3. Now, you will insert into the `dest_products` the required data from joining the `source_products` and `dest_productlines` tables, this will run indefinitely as a Flink Job, so we will keep it running while testing the CDC pipeline. Afterwards, cancel the job using the pause icon in the top right section of the following cell. Wait a few minutes until you see the message: \"**Duration:** ... minutes ... seconds\". After that you can continue.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>3.3. Now, you will insert into the <code>dest_products</code> the required data from joining the <code>source_products</code> and <code>dest_productlines</code> tables, this will run indefinitely as a Flink Job, so we will keep it running while testing the CDC pipeline. Afterwards, cancel the job using the pause icon in the top right section of the following cell. Wait a few minutes until you see the message: &ldquo;<strong>Duration:</strong> &hellip; minutes &hellip; seconds&rdquo;. After that you can continue.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180046_1346164568",
+      "id": "20240706-000147_2043653501",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40604"
+    },
+    {
+      "text": "%flink.ssql\n\nINSERT INTO dest_products (product_key, product_name, product_line, product_scale, product_vendor, product_description, product_line_description, updated_at)\nSELECT sp.productCode, sp.productName, sp.productLine, sp.productScale, sp.productVendor, sp.productDescription, spl.textDescription, sp.event_time\nFROM source_products AS sp\nJOIN source_productlines AS spl on sp.productLine = spl.productLine\n;\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:03:56+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "FLINK JOB",
+          "tooltip": "View in Flink web UI",
+          "group": "flink",
+          "values": [
+            {
+              "jobUrl": "http://localhost:8081#/job/f1c1b376036843444e976412b5aa52a6",
+              "$$hashKey": "object:131805"
+            }
+          ],
+          "interpreterSettingId": "flink"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180046_495819081",
+      "id": "20240706-000147_1969788615",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "RUNNING",
+      "$$hashKey": "object:40605",
+      "dateFinished": "2024-12-20T15:01:43+0000",
+      "dateStarted": "2024-12-20T15:03:56+0000",
+      "results": {
+        "msg": [
+          {
+            "data": "<h1>Duration: {{duration}} </h1>\n",
+            "type": "ANGULAR"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n3.4. Let's check that the `INSERT` statement is working. Use the %psql Interpreter to run the following cells:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>3.4. Let&rsquo;s check that the <code>INSERT</code> statement is working. Use the %psql Interpreter to run the following cells:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180046_1175104437",
+      "id": "20240706-000147_1626441818",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40606"
+    },
+    {
+      "text": "%psql\nselect * from classicmodels_star_schema.dim_products limit 10;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:04:30+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "product_key": "string",
+                      "product_name": "string",
+                      "product_line": "string",
+                      "product_scale": "string",
+                      "product_vendor": "string",
+                      "product_description": "string",
+                      "product_line_description": "string",
+                      "updated_at": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180046_804701297",
+      "id": "20240706-000147_1937092727",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40607",
+      "dateFinished": "2024-12-20T15:04:30+0000",
+      "dateStarted": "2024-12-20T15:04:30+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "product_key\tproduct_name\tproduct_line\tproduct_scale\tproduct_vendor\tproduct_description\tproduct_line_description\tupdated_at\nS10_4962\t1962 LanciaA Delta 16V\tClassic Cars\t1:10\tSecond Gear Diecast\tFeatures include: Turnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.\tAttention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.\t2024-12-20 14:12:20.468\nS18_1984\t1995 Honda Civic\tClassic Cars\t1:18\tMin Lin Diecast\tThis model features, opening hood, opening doors, detailed engine, rear spoiler, opening trunk, working steering, tinted windows, baked enamel finish. Color yellow.\tAttention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.\t2024-12-20 14:12:20.471\nS18_4600\t1940s Ford truck\tTrucks and Buses\t1:18\tMotor City Art Classics\tThis 1940s Ford Pick-Up truck is re-created in 1:18 scale of original 1940s Ford truck. This antique style metal 1940s Ford Flatbed truck is all hand-assembled. This collectible 1940's Pick-Up truck is painted in classic dark green color, and features rotating wheels.\tThe Truck and Bus models are realistic replicas of buses and specialized trucks produced from the early 1920s to present. The models range in size from 1:12 to 1:50 scale and include numerous limited edition and several out-of-production vehicles. Materials used include tin, diecast and plastic. All models include a certificate of authenticity from their manufacturers and are a perfect ornament for the home and office.\t2024-12-20 14:12:20.483\nS50_1514\t1962 City of Detroit Streetcar\tTrains\t1:50\tClassic Metal Creations\tThis streetcar is a joy to see. It has 99 separate windows, electric wire guides, detailed interiors with seats, poles and drivers controls, rolling and turning wheel assemblies, plus authentic factory baked-enamel finishes (Green Hornet for Chicago and Cream and Crimson for Boston).\tModel trains are a rewarding hobby for enthusiasts of all ages. Whether you're looking for collectible wooden trains, electric streetcars or locomotives, you'll find a number of great choices for any budget within this category. The interactive aspect of trains makes toy trains perfect for young children. The wooden train sets are ideal for children under the age of 5.\t2024-12-20 14:12:20.535\nS24_4620\t1961 Chevrolet Impala\tClassic Cars\t1:18\tClassic Metal Creations\tThis 1:18 scale precision die-cast reproduction of the 1961 Chevrolet Impala has all the features-doors, hood and trunk that open; detailed 409 cubic-inch engine; chrome dashboard and stick shift, two-tone interior; working steering system; all topped of with a factory baked-enamel finish.\tAttention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.\t2024-12-20 14:12:20.514\nS700_1938\tThe Mayflower\tShips\t1:700\tStudio M Art Models\tMeasures 31 1/2 inches Long x 25 1/2 inches High x 10 5/8 inches Wide All wood with canvas sail. Extras include long boats, rigging, ladders, railing, anchors, side cannons, hand painted, etc.\tThe perfect holiday or anniversary gift for executives, clients, friends, and family. These handcrafted model ships are unique, stunning works of art that will be treasured for generations! They come fully assembled and ready for display in the home or office. We guarantee the highest quality, and best value.\t2024-12-20 14:12:20.536\nS18_3278\t1969 Dodge Super Bee\tClassic Cars\t1:18\tMin Lin Diecast\tThis replica features opening doors, superb detail and craftsmanship, working steering system, opening forward compartment, opening rear trunk with removable spare, 4 wheel independent spring suspension as well as factory baked enamel finish.\tAttention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.\t2024-12-20 14:12:20.482\nS24_2840\t1958 Chevy Corvette Limited Edition\tClassic Cars\t1:24\tCarousel DieCast Legends\tThe operating parts of this 1958 Chevy Corvette Limited Edition are particularly delicate due to their precise scale and require special care and attention. Features rotating wheels, working streering, opening doors and trunk. Color dark green.\tAttention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.\t2024-12-20 14:12:20.495\nS18_2238\t1998 Chrysler Plymouth Prowler\tClassic Cars\t1:18\tGearbox Collectibles\tTurnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.\tAttention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.\t2024-12-20 14:12:20.471\nS24_1628\t1966 Shelby Cobra 427 S/C\tClassic Cars\t1:24\tCarousel DieCast Legends\tThis diecast model of the 1966 Shelby Cobra 427 S/C includes many authentic details and operating parts. The 1:24 scale model of this iconic lighweight sports car from the 1960s comes in silver and it's own display case.\tAttention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.\t2024-12-20 14:12:20.484\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%psql\nselect count(*) from classicmodels_star_schema.dim_products;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:04:51+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180046_1007154822",
+      "id": "20240706-000147_2002083617",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40608",
+      "dateFinished": "2024-12-20T15:04:51+0000",
+      "dateStarted": "2024-12-20T15:04:51+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "count\n110\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n3.5. Now, let's insert and delete some rows into the `products` table in the MySQL source database and see how those changes are propagated into the PostgreSQL database through the CDC process. Currently, there are 110 products in the source database. Let's insert some new products. Wait a few minutes until you see the message: \"**Duration:** ... minutes ... seconds\". After that you can continue.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>3.5. Now, let&rsquo;s insert and delete some rows into the <code>products</code> table in the MySQL source database and see how those changes are propagated into the PostgreSQL database through the CDC process. Currently, there are 110 products in the source database. Let&rsquo;s insert some new products. Wait a few minutes until you see the message: &ldquo;<strong>Duration:</strong> &hellip; minutes &hellip; seconds&rdquo;. After that you can continue.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180046_1607910345",
+      "id": "20240706-000147_1186607522",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40609"
+    },
+    {
+      "text": "%mysql\nINSERT INTO classicmodels.products (productCode, productName, productLine, productScale, productVendor, productDescription, quantityInStock, buyPrice, MSRP)\nVALUES  ('S700_5000', 'Santisima Trinidad', 'Ships', '1:700', 'Autoart Studio Design', 'All wood with canvas sails. Measures 31 1/2 inches in Length, 22 inches High and 4 3/4 inches Wide. Many extras. Was a Spanish first-rate ship of the line and was the largest warship in the world when launched on 1769.', 500, 40.0, 75.0), \n('S700_5001', 'Couronne', 'Ships', '1:700', 'Unimax Art Galleries', 'Measures 30 inches Long x 27 1/2 inches High x 4 3/4 inches Wide.  Many extras including rigging, long boats, pilot house, anchors, etc. Comes with three masts, all square-rigged.', 10, 31.2, 50.0);",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:05:00+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180047_1144996422",
+      "id": "20240706-000147_711311991",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40610",
+      "dateFinished": "2024-12-20T15:05:00+0000",
+      "dateStarted": "2024-12-20T15:05:00+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : 2\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%mysql\nSELECT count(*) FROM classicmodels.products;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:05:04+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "count(*)": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180047_501581936",
+      "id": "20240706-000147_1951213892",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40611",
+      "dateFinished": "2024-12-20T15:05:04+0000",
+      "dateStarted": "2024-12-20T15:05:04+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "count(*)\n112\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n3.6. With the new two rows inserted, let's check the `dim_products` dimension table at PostgreSQL. Remember that the cell performing the `INSERT INTO dest_products` command (step 3.3.) should be running before executing the following cell:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>3.6. With the new two rows inserted, let&rsquo;s check the <code>dim_products</code> dimension table at PostgreSQL. Remember that the cell performing the <code>INSERT INTO dest_products</code> command (step 3.3.) should be running before executing the following cell:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180047_1511983102",
+      "id": "20240706-000147_700243131",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40612"
+    },
+    {
+      "text": "%psql\nSELECT count(*) FROM classicmodels_star_schema.dim_products;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:05:09+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180047_2142231740",
+      "id": "20240706-000147_1050464015",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40613",
+      "dateFinished": "2024-12-20T15:05:09+0000",
+      "dateStarted": "2024-12-20T15:05:09+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "count\n112\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n3.7. Now, it seems like the information provided for the product with code `'S700_5001'` was incorrect and the actual `productScale` is `'1:500'` and the actual `productVendor` is `'Autoart Studio Design'`. Let's perform an update process in the MySQL table and check the result in PostgreSQL:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>3.7. Now, it seems like the information provided for the product with code <code>'S700_5001'</code> was incorrect and the actual <code>productScale</code> is <code>'1:500'</code> and the actual <code>productVendor</code> is <code>'Autoart Studio Design'</code>. Let&rsquo;s perform an update process in the MySQL table and check the result in PostgreSQL:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180047_1139042146",
+      "id": "20240706-000147_980337873",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40614"
+    },
+    {
+      "text": "%mysql\nUPDATE classicmodels.products \nSET productScale = '1:500', productVendor = 'Autoart Studio Design'\nWHERE productCode='S700_5001';\n\nSELECT * FROM classicmodels.products WHERE productCode='S700_5001';",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:05:19+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "productCode": "string",
+                      "productName": "string",
+                      "productLine": "string",
+                      "productScale": "string",
+                      "productVendor": "string",
+                      "productDescription": "string",
+                      "quantityInStock": "string",
+                      "buyPrice": "string",
+                      "MSRP": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180051_323020329",
+      "id": "20240706-000147_661970385",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40615",
+      "dateFinished": "2024-12-20T15:05:19+0000",
+      "dateStarted": "2024-12-20T15:05:19+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : 1\n"
+          },
+          {
+            "type": "TABLE",
+            "data": "productCode\tproductName\tproductLine\tproductScale\tproductVendor\tproductDescription\tquantityInStock\tbuyPrice\tMSRP\nS700_5001\tCouronne\tShips\t1:500\tAutoart Studio Design\tMeasures 30 inches Long x 27 1/2 inches High x 4 3/4 inches Wide.  Many extras including rigging, long boats, pilot house, anchors, etc. Comes with three masts, all square-rigged.\t10\t31.20\t50.00\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%psql\nSELECT * FROM classicmodels_star_schema.dim_products WHERE product_key='S700_5001';",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:05:41+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "product_key": "string",
+                      "product_name": "string",
+                      "product_line": "string",
+                      "product_scale": "string",
+                      "product_vendor": "string",
+                      "product_description": "string",
+                      "product_line_description": "string",
+                      "updated_at": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180051_1501200222",
+      "id": "20240706-000147_1759679616",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40616",
+      "dateFinished": "2024-12-20T15:05:41+0000",
+      "dateStarted": "2024-12-20T15:05:41+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "product_key\tproduct_name\tproduct_line\tproduct_scale\tproduct_vendor\tproduct_description\tproduct_line_description\tupdated_at\nS700_5001\tCouronne\tShips\t1:500\tAutoart Studio Design\tMeasures 30 inches Long x 27 1/2 inches High x 4 3/4 inches Wide.  Many extras including rigging, long boats, pilot house, anchors, etc. Comes with three masts, all square-rigged.\tThe perfect holiday or anniversary gift for executives, clients, friends, and family. These handcrafted model ships are unique, stunning works of art that will be treasured for generations! They come fully assembled and ready for display in the home or office. We guarantee the highest quality, and best value.\t2024-12-20 15:05:19.865\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\nYou have seen in this example how the CDC process is able to take into account the updates performed in the sources system and propagate them into the destination system. Remember to stop the `INSERT INTO dest_products` process (step 3.3.) above before continuing with the next section in order to release the Flink's task slots.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>You have seen in this example how the CDC process is able to take into account the updates performed in the sources system and propagate them into the destination system. Remember to stop the <code>INSERT INTO dest_products</code> process (step 3.3.) above before continuing with the next section in order to release the Flink&rsquo;s task slots.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180051_202492088",
+      "id": "20240706-000147_819907108",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40617"
+    },
+    {
+      "text": "%md\n## 4 - Fact Table\n\nFinally, you will define the pipeline for the `fact_orders` fact table, review the original `orders` and `orderdetails` table from the source system, use the `%mysql` interpreter to run the following cells:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>4 - Fact Table</h2>\n<p>Finally, you will define the pipeline for the <code>fact_orders</code> fact table, review the original <code>orders</code> and <code>orderdetails</code> table from the source system, use the <code>%mysql</code> interpreter to run the following cells:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180052_302354121",
+      "id": "20240706-000147_1801004869",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40618"
+    },
+    {
+      "text": "%mysql\nSELECT * FROM classicmodels.orders limit 10;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:05:48+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "orderNumber": "string",
+                      "orderDate": "string",
+                      "requiredDate": "string",
+                      "shippedDate": "string",
+                      "status": "string",
+                      "comments": "string",
+                      "customerNumber": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180052_110509832",
+      "id": "20240706-000147_1606690630",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40619",
+      "dateFinished": "2024-12-20T15:05:48+0000",
+      "dateStarted": "2024-12-20T15:05:48+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "orderNumber\torderDate\trequiredDate\tshippedDate\tstatus\tcomments\tcustomerNumber\n10100\t2003-01-06\t2003-01-13\t2003-01-10\tShipped\tnull\t363\n10101\t2003-01-09\t2003-01-18\t2003-01-11\tShipped\tCheck on availability.\t128\n10102\t2003-01-10\t2003-01-18\t2003-01-14\tShipped\tnull\t181\n10103\t2003-01-29\t2003-02-07\t2003-02-02\tShipped\tnull\t121\n10104\t2003-01-31\t2003-02-09\t2003-02-01\tShipped\tnull\t141\n10105\t2003-02-11\t2003-02-21\t2003-02-12\tShipped\tnull\t145\n10106\t2003-02-17\t2003-02-24\t2003-02-21\tShipped\tnull\t278\n10107\t2003-02-24\t2003-03-03\t2003-02-26\tShipped\tDifficult to negotiate with customer. We need more marketing materials\t131\n10108\t2003-03-03\t2003-03-12\t2003-03-08\tShipped\tnull\t385\n10109\t2003-03-10\t2003-03-19\t2003-03-11\tShipped\tCustomer requested that FedEx Ground is used for this shipping\t486\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%mysql\nSELECT * FROM classicmodels.orderdetails limit 10;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:06:03+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "orderNumber": "string",
+                      "productCode": "string",
+                      "quantityOrdered": "string",
+                      "priceEach": "string",
+                      "orderLineNumber": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180052_1844104135",
+      "id": "20240706-000147_5454199",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40620",
+      "dateFinished": "2024-12-20T15:06:03+0000",
+      "dateStarted": "2024-12-20T15:06:03+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "orderNumber\tproductCode\tquantityOrdered\tpriceEach\torderLineNumber\n10100\tS18_1749\t30\t136.00\t3\n10100\tS18_2248\t50\t55.09\t2\n10100\tS18_4409\t22\t75.46\t4\n10100\tS24_3969\t49\t35.29\t1\n10101\tS18_2325\t25\t108.06\t4\n10101\tS18_2795\t26\t167.06\t1\n10101\tS24_1937\t45\t32.53\t3\n10101\tS24_2022\t46\t44.35\t2\n10102\tS18_1342\t39\t95.55\t2\n10102\tS18_1367\t41\t43.13\t1\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n4.1. Define the input tables `source_orders` and `source_orderdetails` using the `%flink.ssql` Interpreter. As in the previous sections, use a similar configuration as the previous table connections, just change the topics to `dbserver1.classicmodels.orders` and `dbserver1.classicmodels.orderdetails` respectively. There will be the same metadata column `event_time` added to each source table.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>4.1. Define the input tables <code>source_orders</code> and <code>source_orderdetails</code> using the <code>%flink.ssql</code> Interpreter. As in the previous sections, use a similar configuration as the previous table connections, just change the topics to <code>dbserver1.classicmodels.orders</code> and <code>dbserver1.classicmodels.orderdetails</code> respectively. There will be the same metadata column <code>event_time</code> added to each source table.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180052_1690293221",
+      "id": "20240706-000147_1486789341",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40621"
+    },
+    {
+      "text": "%flink.ssql\nDROP TABLE IF EXISTS source_orders;\n\nCREATE TABLE source_orders (\n    orderNumber INT, \n    orderDate BIGINT,\n    requiredDate BIGINT,\n    shippedDate BIGINT,\n    status STRING,\n    comments STRING,\n    customerNumber INT,\n    event_time TIMESTAMP(3) METADATA FROM 'timestamp',\n    PRIMARY KEY ( orderNumber) NOT ENFORCED\n) WITH (\n  'connector' = 'kafka',\n  'topic' = 'dbserver1.classicmodels.orders',\n  'properties.bootstrap.servers' = 'kafka:9092',\n  'properties.group.id' = 'testGroup',\n  'format' = 'debezium-json',\n  'scan.startup.mode' = 'earliest-offset',\n  'debezium-json.schema-include' = 'true'\n);\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:06:32+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180052_246265457",
+      "id": "20240706-000147_1714880826",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40622",
+      "dateFinished": "2024-12-20T15:06:33+0000",
+      "dateStarted": "2024-12-20T15:06:32+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%flink.ssql\nDROP TABLE IF EXISTS source_orderdetails;\n\nCREATE TABLE source_orderdetails (\n`orderNumber` INT, \n`productCode` STRING,\n`quantityOrdered` INT,\n`priceEach` FLOAT,\n`orderLineNumber` INT,\n`event_time` TIMESTAMP(3) METADATA FROM 'timestamp',\n  PRIMARY KEY ( orderNumber, productCode) NOT ENFORCED\n) WITH (\n  'connector' = 'kafka',\n  'topic' = 'dbserver1.classicmodels.orderdetails',\n  'properties.bootstrap.servers' = 'kafka:9092',\n  'properties.group.id' = 'testGroup',\n  'format' = 'debezium-json',\n  'scan.startup.mode' = 'earliest-offset',\n  'debezium-json.schema-include' = 'true'\n);\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:06:57+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180052_1725126940",
+      "id": "20240706-000147_334433556",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40623",
+      "dateFinished": "2024-12-20T15:06:58+0000",
+      "dateStarted": "2024-12-20T15:06:57+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n4.2. Define the `dest_factorders` table, this will point to the Postgres RDS target database, specifically the `classicmodels_star_schema.fact_orders` table. Change the placeholder `<POSTGRES_ENDPOINT>` (including the brackets `<>`) with the `PostgresEndpoint` value from the Cloudformation Output and all of the `None`s with the required values.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>4.2. Define the <code>dest_factorders</code> table, this will point to the Postgres RDS target database, specifically the <code>classicmodels_star_schema.fact_orders</code> table. Change the placeholder <code>&lt;POSTGRES_ENDPOINT&gt;</code> (including the brackets <code>&lt;&gt;</code>) with the <code>PostgresEndpoint</code> value from the Cloudformation Output and all of the <code>None</code>s with the required values.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180052_1177030978",
+      "id": "20240706-000147_1447171388",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40624"
+    },
+    {
+      "text": "%flink.ssql\nDROP TABLE IF EXISTS dest_factorders;\n\nCREATE TABLE dest_factorders (\n    order_key INT, \n    order_line_key INT,\n    customer_key INT,\n    product_key STRING,\n    order_date BIGINT,\n    order_required_date BIGINT,\n    order_shipped_date BIGINT,\n    quantity_ordered INT,\n    product_price FLOAT,\n    profit FLOAT,\n    updated_at TIMESTAMP(3),\n    PRIMARY KEY ( order_key, order_line_key, customer_key, product_key) NOT ENFORCED\n) WITH (\n  'connector' = 'jdbc',\n  'url' = 'jdbc:postgresql://de-c4w3lab1-rds.c5y462o64kyl.us-east-1.rds.amazonaws.com:5432/postgres',\n  'table-name' = 'classicmodels_star_schema.fact_orders',\n  'username' = 'postgresuser',\n  'password' = 'adminpwrd'\n);\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:07:44+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180052_1980967926",
+      "id": "20240706-000147_685023936",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40625",
+      "dateFinished": "2024-12-20T15:07:44+0000",
+      "dateStarted": "2024-12-20T15:07:44+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n4.3. Run the `INSERT` query that creates the fact table, there is a field called `profit` that is calculated by subtracting from the price of each product the price for what the product was bought. Wait a moment until you see the message:\n**Duration:** and the counter has measured a few seconds before you can continue.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>4.3. Run the <code>INSERT</code> query that creates the fact table, there is a field called <code>profit</code> that is calculated by subtracting from the price of each product the price for what the product was bought. Wait a moment until you see the message:<br />\n<strong>Duration:</strong> and the counter has measured a few seconds before you can continue.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180053_401681362",
+      "id": "paragraph_1720225855432_809067838",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40626"
+    },
+    {
+      "text": "%flink.ssql\n\nINSERT INTO dest_factorders (order_key, order_line_key, customer_key, product_key, order_date, order_required_date, order_shipped_date, quantity_ordered, product_price, profit, updated_at)\nSELECT so.orderNumber, sod.orderLineNumber, so.customerNumber, sod.productCode, so.orderDate, so.requiredDate, so.shippedDate, sod.quantityOrdered, sod.priceEach, (sod.priceEach - sp.buyPrice) * sod.quantityOrdered, so.event_time\nFROM source_orders AS so\nJOIN source_orderdetails AS sod ON so.orderNumber = sod.orderNumber\nJOIN source_products AS sp ON sod.productCode = sp.productCode\n;\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:08:07+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180053_1491248107",
+      "id": "20240706-000147_1991526449",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "ABORT",
+      "$$hashKey": "object:40627",
+      "dateFinished": "2024-12-20T15:08:38+0000",
+      "dateStarted": "2024-12-20T15:08:07+0000"
+    },
+    {
+      "text": "%md\n4.4. Let's check that the `INSERT` statement is working. Use the `%psql` Interpreter to run the following cells:",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>4.4. Let&rsquo;s check that the <code>INSERT</code> statement is working. Use the <code>%psql</code> Interpreter to run the following cells:</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180053_1475741944",
+      "id": "20240706-000147_492334174",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40628"
+    },
+    {
+      "text": "%psql\nselect * from classicmodels_star_schema.fact_orders limit 10;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:08:09+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "order_key": "string",
+                      "order_line_key": "string",
+                      "customer_key": "string",
+                      "product_key": "string",
+                      "order_date": "string",
+                      "order_required_date": "string",
+                      "order_shipped_date": "string",
+                      "quantity_ordered": "string",
+                      "product_price": "string",
+                      "profit": "string",
+                      "updated_at": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180053_2102791091",
+      "id": "20240706-000147_1542811964",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40629",
+      "dateFinished": "2024-12-20T15:08:09+0000",
+      "dateStarted": "2024-12-20T15:08:09+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "order_key\torder_line_key\tcustomer_key\tproduct_key\torder_date\torder_required_date\torder_shipped_date\tquantity_ordered\tproduct_price\tprofit\tupdated_at\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%psql\nselect count(*) from classicmodels_star_schema.fact_orders;",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T15:08:15+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "colWidth": 12,
+        "editorHide": false,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180053_1300350523",
+      "id": "20240706-000147_1455036960",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:40630",
+      "dateFinished": "2024-12-20T15:08:15+0000",
+      "dateStarted": "2024-12-20T15:08:15+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "count\n0\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n4.5. Before finishing the lab, remember to stop the cell associated with the process: `INSERT INTO dest_factorders` (step 4.3.).",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>4.5. Before finishing the lab, remember to stop the cell associated with the process: <code>INSERT INTO dest_factorders</code> (step 4.3.).</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180053_1822258651",
+      "id": "paragraph_1720471806425_1057415758",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40631"
+    },
+    {
+      "text": "%md\nIn this lab, you explored the implementation of Change Data Capture (CDC) using Apache Flink and Debezium. The combination of Debezium and Flink offers a powerful solution for capturing and processing data changes, making it easier to maintain consistency and derive insights from continuously evolving datasets.",
+      "user": "anonymous",
+      "dateUpdated": "2024-12-20T14:16:20+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/markdown",
+        "colWidth": 12,
+        "editorHide": true,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>In this lab, you explored the implementation of Change Data Capture (CDC) using Apache Flink and Debezium. The combination of Debezium and Flink offers a powerful solution for capturing and processing data changes, making it easier to maintain consistency and derive insights from continuously evolving datasets.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1734704180053_880837357",
+      "id": "20240706-000147_43726086",
+      "dateCreated": "2024-12-20T14:16:20+0000",
+      "status": "READY",
+      "$$hashKey": "object:40632"
+    }
+  ],
+  "name": "C4_W3_Lab_1_CDC",
+  "id": "2KFUKD7NS",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/C4_W3_Lab_1_CDC"
+}
