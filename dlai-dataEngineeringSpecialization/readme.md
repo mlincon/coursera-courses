@@ -8,4 +8,4 @@ Course 3: Data Storage and Queries
 
 Course 4: Data Modeling, Transformation, and Serving
 - Wk1 A1: Data modeling with DBT
-- Wk2 : Also has DBT
+- Wk3 Lab1: CDC with Flink and Debezium
